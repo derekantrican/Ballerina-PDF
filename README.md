@@ -1,4 +1,4 @@
-# Ballerina-PDF
+# Ballerina PDF
 A small program for providing simple modifications to pages of a PDF
 
 ![Program](https://i.imgur.com/vuuvn0w.png)
