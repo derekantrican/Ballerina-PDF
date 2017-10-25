@@ -225,5 +225,18 @@ namespace Ballerina_PDF
             toolStripStatusLabel1.Text = statusText;
             statusStrip1.Update();
         }
+
+        private void Main_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if ((new FileInfo(files.First())).Extension == ".pdf")
+                LoadPDF(files.First());
+        }
+
+        private void Main_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
     }
 }

@@ -34,11 +34,11 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioButtonAll = new System.Windows.Forms.RadioButton();
-            this.radioButtonEven = new System.Windows.Forms.RadioButton();
-            this.radioButtonOdd = new System.Windows.Forms.RadioButton();
-            this.radioButtonSpecific = new System.Windows.Forms.RadioButton();
             this.textBoxSpecificPages = new System.Windows.Forms.TextBox();
+            this.radioButtonSpecific = new System.Windows.Forms.RadioButton();
+            this.radioButtonOdd = new System.Windows.Forms.RadioButton();
+            this.radioButtonEven = new System.Windows.Forms.RadioButton();
+            this.radioButtonAll = new System.Windows.Forms.RadioButton();
             this.labelAction = new System.Windows.Forms.Label();
             this.comboBoxAction = new System.Windows.Forms.ComboBox();
             this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
@@ -90,38 +90,13 @@
             this.panel1.Size = new System.Drawing.Size(272, 94);
             this.panel1.TabIndex = 3;
             // 
-            // radioButtonAll
+            // textBoxSpecificPages
             // 
-            this.radioButtonAll.AutoSize = true;
-            this.radioButtonAll.Location = new System.Drawing.Point(3, 3);
-            this.radioButtonAll.Name = "radioButtonAll";
-            this.radioButtonAll.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonAll.TabIndex = 0;
-            this.radioButtonAll.TabStop = true;
-            this.radioButtonAll.Text = "All pages";
-            this.radioButtonAll.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonEven
-            // 
-            this.radioButtonEven.AutoSize = true;
-            this.radioButtonEven.Location = new System.Drawing.Point(3, 26);
-            this.radioButtonEven.Name = "radioButtonEven";
-            this.radioButtonEven.Size = new System.Drawing.Size(82, 17);
-            this.radioButtonEven.TabIndex = 1;
-            this.radioButtonEven.TabStop = true;
-            this.radioButtonEven.Text = "Even pages";
-            this.radioButtonEven.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonOdd
-            // 
-            this.radioButtonOdd.AutoSize = true;
-            this.radioButtonOdd.Location = new System.Drawing.Point(3, 49);
-            this.radioButtonOdd.Name = "radioButtonOdd";
-            this.radioButtonOdd.Size = new System.Drawing.Size(77, 17);
-            this.radioButtonOdd.TabIndex = 2;
-            this.radioButtonOdd.TabStop = true;
-            this.radioButtonOdd.Text = "Odd pages";
-            this.radioButtonOdd.UseVisualStyleBackColor = true;
+            this.textBoxSpecificPages.Enabled = false;
+            this.textBoxSpecificPages.Location = new System.Drawing.Point(81, 69);
+            this.textBoxSpecificPages.Name = "textBoxSpecificPages";
+            this.textBoxSpecificPages.Size = new System.Drawing.Size(188, 20);
+            this.textBoxSpecificPages.TabIndex = 4;
             // 
             // radioButtonSpecific
             // 
@@ -135,13 +110,38 @@
             this.radioButtonSpecific.UseVisualStyleBackColor = true;
             this.radioButtonSpecific.CheckedChanged += new System.EventHandler(this.radioButtonSpecific_CheckedChanged);
             // 
-            // textBoxSpecificPages
+            // radioButtonOdd
             // 
-            this.textBoxSpecificPages.Enabled = false;
-            this.textBoxSpecificPages.Location = new System.Drawing.Point(81, 69);
-            this.textBoxSpecificPages.Name = "textBoxSpecificPages";
-            this.textBoxSpecificPages.Size = new System.Drawing.Size(188, 20);
-            this.textBoxSpecificPages.TabIndex = 4;
+            this.radioButtonOdd.AutoSize = true;
+            this.radioButtonOdd.Location = new System.Drawing.Point(3, 49);
+            this.radioButtonOdd.Name = "radioButtonOdd";
+            this.radioButtonOdd.Size = new System.Drawing.Size(77, 17);
+            this.radioButtonOdd.TabIndex = 2;
+            this.radioButtonOdd.TabStop = true;
+            this.radioButtonOdd.Text = "Odd pages";
+            this.radioButtonOdd.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonEven
+            // 
+            this.radioButtonEven.AutoSize = true;
+            this.radioButtonEven.Location = new System.Drawing.Point(3, 26);
+            this.radioButtonEven.Name = "radioButtonEven";
+            this.radioButtonEven.Size = new System.Drawing.Size(82, 17);
+            this.radioButtonEven.TabIndex = 1;
+            this.radioButtonEven.TabStop = true;
+            this.radioButtonEven.Text = "Even pages";
+            this.radioButtonEven.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAll
+            // 
+            this.radioButtonAll.AutoSize = true;
+            this.radioButtonAll.Location = new System.Drawing.Point(3, 3);
+            this.radioButtonAll.Name = "radioButtonAll";
+            this.radioButtonAll.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonAll.TabIndex = 0;
+            this.radioButtonAll.TabStop = true;
+            this.radioButtonAll.Text = "All pages";
+            this.radioButtonAll.UseVisualStyleBackColor = true;
             // 
             // labelAction
             // 
@@ -223,6 +223,7 @@
             // 
             // Main
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(312, 280);
@@ -240,6 +241,8 @@
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Ballerina PDF";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
