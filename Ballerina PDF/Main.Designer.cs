@@ -45,7 +45,6 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.checkBoxReplace = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -209,25 +208,12 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // checkBoxReplace
-            // 
-            this.checkBoxReplace.AutoSize = true;
-            this.checkBoxReplace.Checked = true;
-            this.checkBoxReplace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxReplace.Location = new System.Drawing.Point(12, 238);
-            this.checkBoxReplace.Name = "checkBoxReplace";
-            this.checkBoxReplace.Size = new System.Drawing.Size(113, 17);
-            this.checkBoxReplace.TabIndex = 9;
-            this.checkBoxReplace.Text = "Overwrite original?";
-            this.checkBoxReplace.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(312, 280);
-            this.Controls.Add(this.checkBoxReplace);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.numericUpDownAngle);
@@ -241,6 +227,7 @@
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Ballerina PDF";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.panel1.ResumeLayout(false);
@@ -271,7 +258,6 @@
         private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.CheckBox checkBoxReplace;
     }
 }
 

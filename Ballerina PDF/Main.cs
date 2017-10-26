@@ -41,7 +41,7 @@ namespace Ballerina_PDF
             UpdateStatusLabel("Loaded PDF");
         }
 
-        private void SavePDF(bool overwrite = true)
+        private void SavePDF(bool closing = false)
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -54,17 +54,14 @@ namespace Ballerina_PDF
             document.Close();
             tempDocument.Close();
 
-            if (overwrite)
+            File.Delete(filePath);
+            File.Move(tempFilePath, filePath);
+
+            if (!closing)
             {
-                File.Delete(filePath);
-                File.Move(tempFilePath, filePath);
-
-                MessageBox.Show("Saved to " + filePath);
+                LoadPDF(filePath);
+                UpdateStatusLabel("Saved PDF");
             }
-            else
-                MessageBox.Show("Saved to " + tempFilePath);
-
-            UpdateStatusLabel("Saved PDF");
         }
 
         private void MovePage(int currentLocation, int newLocation)
@@ -100,7 +97,7 @@ namespace Ballerina_PDF
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            SavePDF(checkBoxReplace.Checked);
+            SavePDF();
         }
 
         private void radioButtonSpecific_CheckedChanged(object sender, EventArgs e)
@@ -147,7 +144,7 @@ namespace Ballerina_PDF
                     }
                     else if (radioButtonOdd.Checked)
                     {
-                        List<int> oddPages = newPageOrder.Where(p => p % 2 == 0).ToList();
+                        List<int> oddPages = newPageOrder.Where(p => p % 2 != 0).ToList();
                         foreach (int i in oddPages)
                             newPageOrder.Remove(i);
 
@@ -182,7 +179,7 @@ namespace Ballerina_PDF
                     }
                     else if (radioButtonOdd.Checked)
                     {
-                        List<int> oddPages = newPageOrder.Where(p => p % 2 == 0).ToList();
+                        List<int> oddPages = newPageOrder.Where(p => p % 2 != 0).ToList();
                         foreach (int i in oddPages)
                             RotatePage(i, angle);
 
@@ -237,6 +234,12 @@ namespace Ballerina_PDF
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(filePath))
+                SavePDF(true);
         }
     }
 }
