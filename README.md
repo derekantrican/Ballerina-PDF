@@ -1,7 +1,7 @@
 # Ballerina PDF
 A small program for providing simple modifications to pages of a PDF
 
-![Program](https://i.imgur.com/vuuvn0w.png)
+![Program](https://i.imgur.com/3FO7qkA.png)
 
 **Download from the releases page:** https://github.com/derekantrican/Ballerina-PDF/releases
 
