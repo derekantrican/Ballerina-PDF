@@ -39,6 +39,8 @@ namespace Ballerina_PDF
             PdfWriter writer = new PdfWriter(tempFilePath);
             tempDocument = new PdfDocument(writer);
 
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+
             UpdateStatusLabel("Loaded PDF");
         }
 
@@ -68,7 +70,8 @@ namespace Ballerina_PDF
             tempDocument.Close();
 
             File.Delete(filePath);
-            File.Move(tempFilePath, filePath);
+            File.Move(tempFilePath, filePath); //Renames the tempFilePath to the original filePath
+            File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.Hidden); //"unhide" the file (remove the hidden attribute that was associated with the tempFilePath)
 
             if (!closing)
             {
