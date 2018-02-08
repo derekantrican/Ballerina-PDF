@@ -45,6 +45,10 @@
             this.buttonApply = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.radioButtonNegative90 = new System.Windows.Forms.RadioButton();
+            this.radioButton90 = new System.Windows.Forms.RadioButton();
+            this.radioButton180 = new System.Windows.Forms.RadioButton();
+            this.radioButton0 = new System.Windows.Forms.RadioButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -156,8 +160,8 @@
             this.comboBoxAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAction.FormattingEnabled = true;
             this.comboBoxAction.Items.AddRange(new object[] {
-            "Remove",
-            "Rotate"});
+            "Rotate",
+            "Remove"});
             this.comboBoxAction.Location = new System.Drawing.Point(58, 57);
             this.comboBoxAction.Name = "comboBoxAction";
             this.comboBoxAction.Size = new System.Drawing.Size(78, 21);
@@ -180,6 +184,7 @@
             this.numericUpDownAngle.Name = "numericUpDownAngle";
             this.numericUpDownAngle.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAngle.TabIndex = 6;
+            this.numericUpDownAngle.KeyUp += new System.Windows.Forms.KeyEventHandler(this.numericUpDownAngle_KeyUp);
             // 
             // buttonApply
             // 
@@ -208,12 +213,64 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // radioButtonNegative90
+            // 
+            this.radioButtonNegative90.AutoSize = true;
+            this.radioButtonNegative90.Location = new System.Drawing.Point(197, 60);
+            this.radioButtonNegative90.Name = "radioButtonNegative90";
+            this.radioButtonNegative90.Size = new System.Drawing.Size(44, 17);
+            this.radioButtonNegative90.TabIndex = 9;
+            this.radioButtonNegative90.TabStop = true;
+            this.radioButtonNegative90.Text = "-90°";
+            this.radioButtonNegative90.UseVisualStyleBackColor = true;
+            this.radioButtonNegative90.CheckedChanged += new System.EventHandler(this.radioButtonNegative90_CheckedChanged);
+            // 
+            // radioButton90
+            // 
+            this.radioButton90.AutoSize = true;
+            this.radioButton90.Location = new System.Drawing.Point(247, 61);
+            this.radioButton90.Name = "radioButton90";
+            this.radioButton90.Size = new System.Drawing.Size(41, 17);
+            this.radioButton90.TabIndex = 10;
+            this.radioButton90.TabStop = true;
+            this.radioButton90.Text = "90°";
+            this.radioButton90.UseVisualStyleBackColor = true;
+            this.radioButton90.CheckedChanged += new System.EventHandler(this.radioButton90_CheckedChanged);
+            // 
+            // radioButton180
+            // 
+            this.radioButton180.AutoSize = true;
+            this.radioButton180.Location = new System.Drawing.Point(247, 34);
+            this.radioButton180.Name = "radioButton180";
+            this.radioButton180.Size = new System.Drawing.Size(47, 17);
+            this.radioButton180.TabIndex = 12;
+            this.radioButton180.TabStop = true;
+            this.radioButton180.Text = "180°";
+            this.radioButton180.UseVisualStyleBackColor = true;
+            this.radioButton180.CheckedChanged += new System.EventHandler(this.radioButton180_CheckedChanged);
+            // 
+            // radioButton0
+            // 
+            this.radioButton0.AutoSize = true;
+            this.radioButton0.Location = new System.Drawing.Point(197, 33);
+            this.radioButton0.Name = "radioButton0";
+            this.radioButton0.Size = new System.Drawing.Size(35, 17);
+            this.radioButton0.TabIndex = 11;
+            this.radioButton0.TabStop = true;
+            this.radioButton0.Text = "0°";
+            this.radioButton0.UseVisualStyleBackColor = true;
+            this.radioButton0.CheckedChanged += new System.EventHandler(this.radioButton0_CheckedChanged);
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(312, 280);
+            this.Controls.Add(this.radioButton180);
+            this.Controls.Add(this.radioButton0);
+            this.Controls.Add(this.radioButton90);
+            this.Controls.Add(this.radioButtonNegative90);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.numericUpDownAngle);
@@ -258,6 +315,10 @@
         private System.Windows.Forms.Button buttonApply;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.RadioButton radioButtonNegative90;
+        private System.Windows.Forms.RadioButton radioButton90;
+        private System.Windows.Forms.RadioButton radioButton180;
+        private System.Windows.Forms.RadioButton radioButton0;
     }
 }
 

@@ -22,6 +22,7 @@ namespace Ballerina_PDF
 
             comboBoxAction.SelectedIndex = 0;
             radioButtonAll.Checked = true;
+            radioButton0.Checked = true; //the numericUpDown is 0  to start with, so this should be checked
             UpdateStatusLabel("");
         }
 
@@ -111,9 +112,19 @@ namespace Ballerina_PDF
             {
                 case "Remove":
                     numericUpDownAngle.Visible = false;
+
+                    radioButton0.Visible = false;
+                    radioButton180.Visible = false;
+                    radioButton90.Visible = false;
+                    radioButtonNegative90.Visible = false;
                     break;
                 case "Rotate":
                     numericUpDownAngle.Visible = true;
+
+                    radioButton0.Visible = true;
+                    radioButton180.Visible = true;
+                    radioButton90.Visible = true;
+                    radioButtonNegative90.Visible = true;
                     break;
             }
         }
@@ -240,6 +251,82 @@ namespace Ballerina_PDF
         {
             if (!string.IsNullOrEmpty(filePath))
                 SavePDF(true);
+        }
+
+        private void radioButton0_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton0.Checked)
+            {
+                numericUpDownAngle.Value = 0;
+
+                radioButton180.Checked = false;
+                radioButtonNegative90.Checked = false;
+                radioButton90.Checked = false;
+            }
+        }
+
+        private void radioButton180_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton180.Checked)
+            {
+                numericUpDownAngle.Value = 180;
+
+                radioButton0.Checked = false;
+                radioButtonNegative90.Checked = false;
+                radioButton90.Checked = false;
+            }
+        }
+
+        private void radioButtonNegative90_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonNegative90.Checked)
+            {
+                numericUpDownAngle.Value = -90;
+
+                radioButton0.Checked = false;
+                radioButton180.Checked = false;
+                radioButton90.Checked = false;
+            }
+        }
+
+        private void radioButton90_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton90.Checked)
+            {
+                numericUpDownAngle.Value = 90;
+
+                radioButton0.Checked = false;
+                radioButton180.Checked = false;
+                radioButtonNegative90.Checked = false;
+            }
+        }
+
+        private void numericUpDownAngle_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(numericUpDownAngle.Text))
+            {
+                radioButton0.Checked = false;
+                radioButton180.Checked = false;
+                radioButton90.Checked = false;
+                radioButtonNegative90.Checked = false;
+                return;
+            }
+
+            if (numericUpDownAngle.Value == 0)
+                radioButton0.Checked = true;
+            else if (numericUpDownAngle.Value == -90)
+                radioButtonNegative90.Checked = true;
+            else if (numericUpDownAngle.Value == 90)
+                radioButton90.Checked = true;
+            else if (numericUpDownAngle.Value == 180)
+                radioButton180.Checked = true;
+            else
+            {
+                radioButton0.Checked = false;
+                radioButton180.Checked = false;
+                radioButton90.Checked = false;
+                radioButtonNegative90.Checked = false;
+            }
         }
     }
 }
