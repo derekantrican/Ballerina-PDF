@@ -35,11 +35,23 @@ namespace Ballerina_PDF
             labelFileLocation.Text = filePath;
             toolTip1.SetToolTip(labelFileLocation, filePath);
 
-            tempFilePath = filePath.Replace(".pdf", "") + "-temp.pdf";
+            tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
             PdfWriter writer = new PdfWriter(tempFilePath);
             tempDocument = new PdfDocument(writer);
 
             UpdateStatusLabel("Loaded PDF");
+        }
+
+        private void LoadNewPDF(string filePath)
+        {
+            ReorderPages(newPageOrder); //This needs to be done in order to copy the pages to tempDocument (it won't close if it has no pages)
+
+            document.Close();
+            tempDocument.Close();
+
+            File.Delete(tempFilePath);
+
+            LoadPDF(filePath);
         }
 
         private void SavePDF(bool closing = false)
@@ -92,7 +104,11 @@ namespace Ballerina_PDF
             if (dialogResult == DialogResult.OK)
             {
                 fileChooserDirectory = Path.GetDirectoryName(fileChooser.FileName);
-                LoadPDF(fileChooser.FileName);
+
+                if (!string.IsNullOrEmpty(filePath) && fileChooser.FileName != filePath)
+                    LoadNewPDF(fileChooser.FileName);
+                else
+                    LoadPDF(fileChooser.FileName);
             }
         }
 
@@ -238,7 +254,12 @@ namespace Ballerina_PDF
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if ((new FileInfo(files.First())).Extension == ".pdf")
-                LoadPDF(files.First());
+            {
+                if (!string.IsNullOrEmpty(filePath) && files.First() != filePath)
+                    LoadNewPDF(files.First());
+                else
+                    LoadPDF(files.First());
+            }
         }
 
         private void Main_DragEnter(object sender, DragEventArgs e)
