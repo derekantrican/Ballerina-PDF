@@ -33,7 +33,7 @@
             this.labelFileLocation = new System.Windows.Forms.Label();
             this.buttonSave = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelPageChoosers = new System.Windows.Forms.Panel();
             this.textBoxSpecificPages = new System.Windows.Forms.TextBox();
             this.radioButtonSpecific = new System.Windows.Forms.RadioButton();
             this.radioButtonOdd = new System.Windows.Forms.RadioButton();
@@ -49,9 +49,16 @@
             this.radioButton90 = new System.Windows.Forms.RadioButton();
             this.radioButton180 = new System.Windows.Forms.RadioButton();
             this.radioButton0 = new System.Windows.Forms.RadioButton();
-            this.panel1.SuspendLayout();
+            this.panelRotationAngles = new System.Windows.Forms.Panel();
+            this.panelMergePDF = new System.Windows.Forms.Panel();
+            this.buttonLoadMergePDF = new System.Windows.Forms.Button();
+            this.labelPDFtoMerge = new System.Windows.Forms.Label();
+            this.buttonMerge = new System.Windows.Forms.Button();
+            this.panelPageChoosers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.panelRotationAngles.SuspendLayout();
+            this.panelMergePDF.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonOpen
@@ -81,17 +88,18 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // panel1
+            // panelPageChoosers
             // 
-            this.panel1.Controls.Add(this.textBoxSpecificPages);
-            this.panel1.Controls.Add(this.radioButtonSpecific);
-            this.panel1.Controls.Add(this.radioButtonOdd);
-            this.panel1.Controls.Add(this.radioButtonEven);
-            this.panel1.Controls.Add(this.radioButtonAll);
-            this.panel1.Location = new System.Drawing.Point(28, 84);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(272, 94);
-            this.panel1.TabIndex = 3;
+            this.panelPageChoosers.Controls.Add(this.textBoxSpecificPages);
+            this.panelPageChoosers.Controls.Add(this.radioButtonSpecific);
+            this.panelPageChoosers.Controls.Add(this.radioButtonOdd);
+            this.panelPageChoosers.Controls.Add(this.radioButtonEven);
+            this.panelPageChoosers.Controls.Add(this.radioButtonAll);
+            this.panelPageChoosers.Controls.Add(this.buttonApply);
+            this.panelPageChoosers.Location = new System.Drawing.Point(463, 388);
+            this.panelPageChoosers.Name = "panelPageChoosers";
+            this.panelPageChoosers.Size = new System.Drawing.Size(272, 123);
+            this.panelPageChoosers.TabIndex = 3;
             // 
             // textBoxSpecificPages
             // 
@@ -149,7 +157,7 @@
             // labelAction
             // 
             this.labelAction.AutoSize = true;
-            this.labelAction.Location = new System.Drawing.Point(12, 60);
+            this.labelAction.Location = new System.Drawing.Point(12, 54);
             this.labelAction.Name = "labelAction";
             this.labelAction.Size = new System.Drawing.Size(40, 13);
             this.labelAction.TabIndex = 4;
@@ -161,8 +169,9 @@
             this.comboBoxAction.FormattingEnabled = true;
             this.comboBoxAction.Items.AddRange(new object[] {
             "Rotate",
-            "Remove"});
-            this.comboBoxAction.Location = new System.Drawing.Point(58, 57);
+            "Remove",
+            "Merge"});
+            this.comboBoxAction.Location = new System.Drawing.Point(58, 51);
             this.comboBoxAction.Name = "comboBoxAction";
             this.comboBoxAction.Size = new System.Drawing.Size(78, 21);
             this.comboBoxAction.TabIndex = 5;
@@ -170,7 +179,7 @@
             // 
             // numericUpDownAngle
             // 
-            this.numericUpDownAngle.Location = new System.Drawing.Point(142, 57);
+            this.numericUpDownAngle.Location = new System.Drawing.Point(4, 28);
             this.numericUpDownAngle.Maximum = new decimal(new int[] {
             360,
             0,
@@ -188,7 +197,7 @@
             // 
             // buttonApply
             // 
-            this.buttonApply.Location = new System.Drawing.Point(257, 179);
+            this.buttonApply.Location = new System.Drawing.Point(226, 95);
             this.buttonApply.Name = "buttonApply";
             this.buttonApply.Size = new System.Drawing.Size(43, 23);
             this.buttonApply.TabIndex = 7;
@@ -200,9 +209,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 258);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 693);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(312, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(769, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
@@ -216,7 +225,7 @@
             // radioButtonNegative90
             // 
             this.radioButtonNegative90.AutoSize = true;
-            this.radioButtonNegative90.Location = new System.Drawing.Point(197, 60);
+            this.radioButtonNegative90.Location = new System.Drawing.Point(59, 31);
             this.radioButtonNegative90.Name = "radioButtonNegative90";
             this.radioButtonNegative90.Size = new System.Drawing.Size(44, 17);
             this.radioButtonNegative90.TabIndex = 9;
@@ -228,7 +237,7 @@
             // radioButton90
             // 
             this.radioButton90.AutoSize = true;
-            this.radioButton90.Location = new System.Drawing.Point(247, 61);
+            this.radioButton90.Location = new System.Drawing.Point(109, 32);
             this.radioButton90.Name = "radioButton90";
             this.radioButton90.Size = new System.Drawing.Size(41, 17);
             this.radioButton90.TabIndex = 10;
@@ -240,7 +249,7 @@
             // radioButton180
             // 
             this.radioButton180.AutoSize = true;
-            this.radioButton180.Location = new System.Drawing.Point(247, 34);
+            this.radioButton180.Location = new System.Drawing.Point(109, 5);
             this.radioButton180.Name = "radioButton180";
             this.radioButton180.Size = new System.Drawing.Size(47, 17);
             this.radioButton180.TabIndex = 12;
@@ -252,7 +261,7 @@
             // radioButton0
             // 
             this.radioButton0.AutoSize = true;
-            this.radioButton0.Location = new System.Drawing.Point(197, 33);
+            this.radioButton0.Location = new System.Drawing.Point(59, 4);
             this.radioButton0.Name = "radioButton0";
             this.radioButton0.Size = new System.Drawing.Size(35, 17);
             this.radioButton0.TabIndex = 11;
@@ -261,22 +270,67 @@
             this.radioButton0.UseVisualStyleBackColor = true;
             this.radioButton0.CheckedChanged += new System.EventHandler(this.radioButton0_CheckedChanged);
             // 
+            // panelRotationAngles
+            // 
+            this.panelRotationAngles.Controls.Add(this.radioButton90);
+            this.panelRotationAngles.Controls.Add(this.radioButton180);
+            this.panelRotationAngles.Controls.Add(this.numericUpDownAngle);
+            this.panelRotationAngles.Controls.Add(this.radioButton0);
+            this.panelRotationAngles.Controls.Add(this.radioButtonNegative90);
+            this.panelRotationAngles.Location = new System.Drawing.Point(573, 41);
+            this.panelRotationAngles.Name = "panelRotationAngles";
+            this.panelRotationAngles.Size = new System.Drawing.Size(159, 54);
+            this.panelRotationAngles.TabIndex = 13;
+            // 
+            // panelMergePDF
+            // 
+            this.panelMergePDF.Controls.Add(this.buttonMerge);
+            this.panelMergePDF.Controls.Add(this.labelPDFtoMerge);
+            this.panelMergePDF.Controls.Add(this.buttonLoadMergePDF);
+            this.panelMergePDF.Location = new System.Drawing.Point(463, 530);
+            this.panelMergePDF.Name = "panelMergePDF";
+            this.panelMergePDF.Size = new System.Drawing.Size(272, 123);
+            this.panelMergePDF.TabIndex = 14;
+            // 
+            // buttonLoadMergePDF
+            // 
+            this.buttonLoadMergePDF.Location = new System.Drawing.Point(3, 3);
+            this.buttonLoadMergePDF.Name = "buttonLoadMergePDF";
+            this.buttonLoadMergePDF.Size = new System.Drawing.Size(129, 23);
+            this.buttonLoadMergePDF.TabIndex = 0;
+            this.buttonLoadMergePDF.Text = "Load PDF to Merge...";
+            this.buttonLoadMergePDF.UseVisualStyleBackColor = true;
+            this.buttonLoadMergePDF.Click += new System.EventHandler(this.buttonLoadMergePDF_Click);
+            // 
+            // labelPDFtoMerge
+            // 
+            this.labelPDFtoMerge.Location = new System.Drawing.Point(3, 29);
+            this.labelPDFtoMerge.Name = "labelPDFtoMerge";
+            this.labelPDFtoMerge.Size = new System.Drawing.Size(266, 13);
+            this.labelPDFtoMerge.TabIndex = 1;
+            // 
+            // buttonMerge
+            // 
+            this.buttonMerge.Location = new System.Drawing.Point(214, 97);
+            this.buttonMerge.Name = "buttonMerge";
+            this.buttonMerge.Size = new System.Drawing.Size(55, 23);
+            this.buttonMerge.TabIndex = 2;
+            this.buttonMerge.Text = "Merge";
+            this.buttonMerge.UseVisualStyleBackColor = true;
+            this.buttonMerge.Click += new System.EventHandler(this.buttonMerge_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(312, 280);
-            this.Controls.Add(this.radioButton180);
-            this.Controls.Add(this.radioButton0);
-            this.Controls.Add(this.radioButton90);
-            this.Controls.Add(this.radioButtonNegative90);
+            this.ClientSize = new System.Drawing.Size(769, 715);
+            this.Controls.Add(this.panelMergePDF);
+            this.Controls.Add(this.panelRotationAngles);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.buttonApply);
-            this.Controls.Add(this.numericUpDownAngle);
             this.Controls.Add(this.comboBoxAction);
             this.Controls.Add(this.labelAction);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelPageChoosers);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelFileLocation);
             this.Controls.Add(this.buttonOpen);
@@ -287,11 +341,14 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelPageChoosers.ResumeLayout(false);
+            this.panelPageChoosers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panelRotationAngles.ResumeLayout(false);
+            this.panelRotationAngles.PerformLayout();
+            this.panelMergePDF.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,7 +360,7 @@
         private System.Windows.Forms.Label labelFileLocation;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelPageChoosers;
         private System.Windows.Forms.TextBox textBoxSpecificPages;
         private System.Windows.Forms.RadioButton radioButtonSpecific;
         private System.Windows.Forms.RadioButton radioButtonOdd;
@@ -319,6 +376,11 @@
         private System.Windows.Forms.RadioButton radioButton90;
         private System.Windows.Forms.RadioButton radioButton180;
         private System.Windows.Forms.RadioButton radioButton0;
+        private System.Windows.Forms.Panel panelRotationAngles;
+        private System.Windows.Forms.Panel panelMergePDF;
+        private System.Windows.Forms.Label labelPDFtoMerge;
+        private System.Windows.Forms.Button buttonLoadMergePDF;
+        private System.Windows.Forms.Button buttonMerge;
     }
 }
 

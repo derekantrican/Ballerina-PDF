@@ -15,15 +15,32 @@ namespace Ballerina_PDF
         List<int> newPageOrder = new List<int>();
         string filePath;
         string tempFilePath;
+        string mergeFilePath;
         string fileChooserDirectory;
         public Main()
         {
             InitializeComponent();
+            BuildForm();
 
             comboBoxAction.SelectedIndex = 0;
             radioButtonAll.Checked = true;
             radioButton0.Checked = true; //the numericUpDown is 0  to start with, so this should be checked
             UpdateStatusLabel("");
+        }
+
+        private void BuildForm()
+        {
+            this.Width = 328;
+            this.Height = 319;
+
+            panelRotationAngles.Left = 142;
+            panelRotationAngles.Top = 24;
+
+            panelPageChoosers.Left = 28;
+            panelPageChoosers.Top = 84;
+
+            panelMergePDF.Left = 28;
+            panelMergePDF.Top = 84;
         }
 
         private void LoadPDF(string filePath)
@@ -97,6 +114,27 @@ namespace Ballerina_PDF
                 tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
         }
 
+        private void MergePDF(string mergeFilePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("Please select a pdf first");
+                return;
+            }
+
+            PdfReader reader = new PdfReader(mergeFilePath);
+            PdfDocument documentToMerge = new PdfDocument(reader);
+
+            ReorderPages(newPageOrder);
+
+            for (int i = 1; i <= documentToMerge.GetNumberOfPages(); i++)
+            {
+                tempDocument.AddPage(documentToMerge.GetPage(i).CopyTo(tempDocument));
+            }
+
+            UpdateStatusLabel("Merged " + Path.GetFileNameWithoutExtension(mergeFilePath) + " into " + Path.GetFileNameWithoutExtension(filePath));
+        }
+
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileChooser = new OpenFileDialog();
@@ -130,20 +168,19 @@ namespace Ballerina_PDF
             switch (comboBoxAction.Text)
             {
                 case "Remove":
-                    numericUpDownAngle.Visible = false;
-
-                    radioButton0.Visible = false;
-                    radioButton180.Visible = false;
-                    radioButton90.Visible = false;
-                    radioButtonNegative90.Visible = false;
+                    panelPageChoosers.Visible = true;
+                    panelRotationAngles.Visible = false;
+                    panelMergePDF.Visible = false;
                     break;
                 case "Rotate":
-                    numericUpDownAngle.Visible = true;
-
-                    radioButton0.Visible = true;
-                    radioButton180.Visible = true;
-                    radioButton90.Visible = true;
-                    radioButtonNegative90.Visible = true;
+                    panelPageChoosers.Visible = true;
+                    panelRotationAngles.Visible = true;
+                    panelMergePDF.Visible = false;
+                    break;
+                case "Merge":
+                    panelPageChoosers.Visible = false;
+                    panelRotationAngles.Visible = false;
+                    panelMergePDF.Visible = true;
                     break;
             }
         }
@@ -351,6 +388,29 @@ namespace Ballerina_PDF
                 radioButton90.Checked = false;
                 radioButtonNegative90.Checked = false;
             }
+        }
+
+        private void buttonLoadMergePDF_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileChooser = new OpenFileDialog();
+            fileChooser.InitialDirectory = string.IsNullOrEmpty(fileChooserDirectory) ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) : fileChooserDirectory;
+            fileChooser.Filter = "PDF Files (*.pdf)|*.pdf";
+            DialogResult dialogResult = fileChooser.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                fileChooserDirectory = Path.GetDirectoryName(fileChooser.FileName);
+                mergeFilePath = fileChooser.FileName;
+
+                labelPDFtoMerge.Text = mergeFilePath;
+                toolTip1.SetToolTip(labelPDFtoMerge, mergeFilePath);
+            }
+        }
+
+        private void buttonMerge_Click(object sender, EventArgs e)
+        {
+            //Disabled for now
+            //MergePDF(mergeFilePath);
         }
     }
 }
