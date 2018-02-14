@@ -443,5 +443,53 @@ namespace Ballerina_PDF
                 return false;
             }
         }
+
+        public static bool MovePage(string filePath, int oldIndex, int newIndex, bool throwErrors = false)
+        {
+            try
+            {
+                #region Setup
+                if (!File.Exists(filePath))
+                    throw new Exception("File not found");
+
+                if (oldIndex <= 0 || newIndex <= 0)
+                    throw new Exception("Invalid parameters");
+
+                PdfReader reader = new PdfReader(filePath);
+                PdfDocument document = new PdfDocument(reader);
+                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+                PdfWriter writer = new PdfWriter(tempFilePath);
+                PdfDocument tempDocument = new PdfDocument(writer);
+                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+                #endregion Setup
+
+                #region Logic
+                List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
+                pageOrder.Insert(newIndex - 1, oldIndex); //"- 1" because lists are zero-index-based and pages are not
+                pageOrder.Remove(oldIndex);
+
+                foreach (int i in pageOrder)
+                    tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
+                #endregion Logic
+
+                #region Teardown
+                document.Close();
+                tempDocument.Close();
+
+                File.Delete(filePath);
+                File.Move(tempFilePath, filePath); //Renames the tempFilePath to the original filePath
+                File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.Hidden); //"unhide" the file (remove the hidden attribute that was associated with the tempFilePath)
+                #endregion Teardown
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (throwErrors)
+                    MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
+
+                return false;
+            }
+        }
     }
 }
