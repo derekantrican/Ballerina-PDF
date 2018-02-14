@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.labelFileLocation = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panelPageChoosers = new System.Windows.Forms.Panel();
             this.textBoxSpecificPages = new System.Windows.Forms.TextBox();
@@ -39,10 +38,10 @@
             this.radioButtonOdd = new System.Windows.Forms.RadioButton();
             this.radioButtonEven = new System.Windows.Forms.RadioButton();
             this.radioButtonAll = new System.Windows.Forms.RadioButton();
+            this.buttonApply = new System.Windows.Forms.Button();
             this.labelAction = new System.Windows.Forms.Label();
             this.comboBoxAction = new System.Windows.Forms.ComboBox();
             this.numericUpDownAngle = new System.Windows.Forms.NumericUpDown();
-            this.buttonApply = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.radioButtonNegative90 = new System.Windows.Forms.RadioButton();
@@ -51,9 +50,9 @@
             this.radioButton0 = new System.Windows.Forms.RadioButton();
             this.panelRotationAngles = new System.Windows.Forms.Panel();
             this.panelMergePDF = new System.Windows.Forms.Panel();
-            this.buttonLoadMergePDF = new System.Windows.Forms.Button();
-            this.labelPDFtoMerge = new System.Windows.Forms.Label();
             this.buttonMerge = new System.Windows.Forms.Button();
+            this.labelPDFtoMerge = new System.Windows.Forms.Label();
+            this.buttonLoadMergePDF = new System.Windows.Forms.Button();
             this.panelPageChoosers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -77,16 +76,6 @@
             this.labelFileLocation.Name = "labelFileLocation";
             this.labelFileLocation.Size = new System.Drawing.Size(206, 13);
             this.labelFileLocation.TabIndex = 1;
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(225, 233);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 2;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // panelPageChoosers
             // 
@@ -154,6 +143,16 @@
             this.radioButtonAll.Text = "All pages";
             this.radioButtonAll.UseVisualStyleBackColor = true;
             // 
+            // buttonApply
+            // 
+            this.buttonApply.Location = new System.Drawing.Point(226, 95);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(43, 23);
+            this.buttonApply.TabIndex = 7;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
+            // 
             // labelAction
             // 
             this.labelAction.AutoSize = true;
@@ -194,16 +193,6 @@
             this.numericUpDownAngle.Size = new System.Drawing.Size(49, 20);
             this.numericUpDownAngle.TabIndex = 6;
             this.numericUpDownAngle.KeyUp += new System.Windows.Forms.KeyEventHandler(this.numericUpDownAngle_KeyUp);
-            // 
-            // buttonApply
-            // 
-            this.buttonApply.Location = new System.Drawing.Point(226, 95);
-            this.buttonApply.Name = "buttonApply";
-            this.buttonApply.Size = new System.Drawing.Size(43, 23);
-            this.buttonApply.TabIndex = 7;
-            this.buttonApply.Text = "Apply";
-            this.buttonApply.UseVisualStyleBackColor = true;
-            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // statusStrip1
             // 
@@ -292,23 +281,6 @@
             this.panelMergePDF.Size = new System.Drawing.Size(272, 123);
             this.panelMergePDF.TabIndex = 14;
             // 
-            // buttonLoadMergePDF
-            // 
-            this.buttonLoadMergePDF.Location = new System.Drawing.Point(3, 3);
-            this.buttonLoadMergePDF.Name = "buttonLoadMergePDF";
-            this.buttonLoadMergePDF.Size = new System.Drawing.Size(129, 23);
-            this.buttonLoadMergePDF.TabIndex = 0;
-            this.buttonLoadMergePDF.Text = "Load PDF to Merge...";
-            this.buttonLoadMergePDF.UseVisualStyleBackColor = true;
-            this.buttonLoadMergePDF.Click += new System.EventHandler(this.buttonLoadMergePDF_Click);
-            // 
-            // labelPDFtoMerge
-            // 
-            this.labelPDFtoMerge.Location = new System.Drawing.Point(3, 29);
-            this.labelPDFtoMerge.Name = "labelPDFtoMerge";
-            this.labelPDFtoMerge.Size = new System.Drawing.Size(266, 13);
-            this.labelPDFtoMerge.TabIndex = 1;
-            // 
             // buttonMerge
             // 
             this.buttonMerge.Location = new System.Drawing.Point(214, 97);
@@ -318,6 +290,23 @@
             this.buttonMerge.Text = "Merge";
             this.buttonMerge.UseVisualStyleBackColor = true;
             this.buttonMerge.Click += new System.EventHandler(this.buttonMerge_Click);
+            // 
+            // labelPDFtoMerge
+            // 
+            this.labelPDFtoMerge.Location = new System.Drawing.Point(3, 29);
+            this.labelPDFtoMerge.Name = "labelPDFtoMerge";
+            this.labelPDFtoMerge.Size = new System.Drawing.Size(266, 13);
+            this.labelPDFtoMerge.TabIndex = 1;
+            // 
+            // buttonLoadMergePDF
+            // 
+            this.buttonLoadMergePDF.Location = new System.Drawing.Point(3, 3);
+            this.buttonLoadMergePDF.Name = "buttonLoadMergePDF";
+            this.buttonLoadMergePDF.Size = new System.Drawing.Size(129, 23);
+            this.buttonLoadMergePDF.TabIndex = 0;
+            this.buttonLoadMergePDF.Text = "Load PDF to Merge...";
+            this.buttonLoadMergePDF.UseVisualStyleBackColor = true;
+            this.buttonLoadMergePDF.Click += new System.EventHandler(this.buttonLoadMergePDF_Click);
             // 
             // Main
             // 
@@ -331,14 +320,12 @@
             this.Controls.Add(this.comboBoxAction);
             this.Controls.Add(this.labelAction);
             this.Controls.Add(this.panelPageChoosers);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.labelFileLocation);
             this.Controls.Add(this.buttonOpen);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Ballerina PDF";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
             this.panelPageChoosers.ResumeLayout(false);
@@ -358,7 +345,6 @@
 
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Label labelFileLocation;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Panel panelPageChoosers;
         private System.Windows.Forms.TextBox textBoxSpecificPages;

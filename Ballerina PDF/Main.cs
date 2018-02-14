@@ -10,13 +10,13 @@ namespace Ballerina_PDF
 {
     public partial class Main : Form
     {
-        PdfDocument document;
-        PdfDocument tempDocument;
-        List<int> newPageOrder = new List<int>();
+        #region Global Variables
         string filePath;
-        string tempFilePath;
         string mergeFilePath;
         string fileChooserDirectory;
+        #endregion Global Variables
+
+        #region Initialization
         public Main()
         {
             InitializeComponent();
@@ -42,105 +42,54 @@ namespace Ballerina_PDF
             panelMergePDF.Left = 28;
             panelMergePDF.Top = 84;
         }
+        #endregion Initialization
 
-        private void LoadPDF(string filePath)
+        #region PDF Loading Functions
+        private void LoadPDF(string fileToLoad)
         {
             if (IsFileLocked(new FileInfo(filePath)))
             {
-                MessageBox.Show("Please close the file first before editing");
+                MessageBox.Show("File is in use. Please close the file first before editing");
                 return;
             }
 
-            this.filePath = filePath;
-            PdfReader reader = new PdfReader(filePath);
-            document = new PdfDocument(reader);
-            newPageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
+            this.filePath = fileToLoad;
             labelFileLocation.Text = filePath;
             toolTip1.SetToolTip(labelFileLocation, filePath);
-
-            tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-            PdfWriter writer = new PdfWriter(tempFilePath);
-            tempDocument = new PdfDocument(writer);
-
-            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
 
             UpdateStatusLabel("Loaded PDF");
         }
 
-        private void LoadNewPDF(string filePath)
+        private void LoadMergePDF(string fileToLoad)
         {
-            ReorderPages(newPageOrder); //This needs to be done in order to copy the pages to tempDocument (it won't close if it has no pages)
-
-            document.Close();
-            tempDocument.Close();
-
-            File.Delete(tempFilePath);
-
-            LoadPDF(filePath);
-        }
-
-        private void SavePDF(bool closing = false)
-        {
-            if (string.IsNullOrEmpty(filePath))
+            if (IsFileLocked(new FileInfo(filePath)))
             {
-                MessageBox.Show("Please select a pdf first");
+                MessageBox.Show("File is in use. Please close the file first before editing");
                 return;
             }
 
-            ReorderPages(newPageOrder);
+            this.mergeFilePath = fileToLoad;
+            labelPDFtoMerge.Text = mergeFilePath;
+            toolTip1.SetToolTip(labelPDFtoMerge, mergeFilePath);
 
-            document.Close();
-            tempDocument.Close();
-
-            File.Delete(filePath);
-            File.Move(tempFilePath, filePath); //Renames the tempFilePath to the original filePath
-            File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.Hidden); //"unhide" the file (remove the hidden attribute that was associated with the tempFilePath)
-
-            if (!closing)
-            {
-                LoadPDF(filePath);
-                UpdateStatusLabel("Saved PDF");
-            }
+            UpdateStatusLabel("Loaded PDF to merge");
         }
 
-        private void MovePage(int currentLocation, int newLocation)
+        private void Main_DragDrop(object sender, DragEventArgs e)
         {
-            newPageOrder.Insert(newLocation - 1, currentLocation); //"- 1" because lists are zero-index-based and pages are not
-            newPageOrder.Remove(currentLocation);
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if ((new FileInfo(files.First())).Extension == ".pdf")
+                LoadPDF(files.First());
         }
 
-        private void RotatePage(int pageIndex, int degreesToRotate)
+        private void Main_DragEnter(object sender, DragEventArgs e)
         {
-            document.GetPage(pageIndex).SetRotation(document.GetPage(pageIndex).GetRotation() + degreesToRotate);
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
         }
+        #endregion PDF Loading Functions
 
-        private void ReorderPages(List<int> newPageOrder)
-        {
-            foreach (int i in newPageOrder)
-                tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
-        }
-
-        private void MergePDF(string mergeFilePath)
-        {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                MessageBox.Show("Please select a pdf first");
-                return;
-            }
-
-            PdfReader reader = new PdfReader(mergeFilePath);
-            PdfDocument documentToMerge = new PdfDocument(reader);
-
-            ReorderPages(newPageOrder);
-
-            for (int i = 1; i <= documentToMerge.GetNumberOfPages(); i++)
-            {
-                tempDocument.AddPage(documentToMerge.GetPage(i).CopyTo(tempDocument));
-            }
-
-            UpdateStatusLabel("Merged " + Path.GetFileNameWithoutExtension(mergeFilePath) + " into " + Path.GetFileNameWithoutExtension(filePath));
-        }
-
+        #region Button Actions
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileChooser = new OpenFileDialog();
@@ -151,43 +100,24 @@ namespace Ballerina_PDF
             if (dialogResult == DialogResult.OK)
             {
                 fileChooserDirectory = Path.GetDirectoryName(fileChooser.FileName);
-
-                if (!string.IsNullOrEmpty(filePath) && fileChooser.FileName != filePath)
-                    LoadNewPDF(fileChooser.FileName);
-                else
-                    LoadPDF(fileChooser.FileName);
+                LoadPDF(fileChooser.FileName);
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void buttonLoadMergePDF_Click(object sender, EventArgs e)
         {
-            SavePDF();
-        }
+            OpenFileDialog fileChooser = new OpenFileDialog();
+            fileChooser.InitialDirectory = string.IsNullOrEmpty(fileChooserDirectory) ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) : fileChooserDirectory;
+            fileChooser.Filter = "PDF Files (*.pdf)|*.pdf";
+            DialogResult dialogResult = fileChooser.ShowDialog();
 
-        private void radioButtonSpecific_CheckedChanged(object sender, EventArgs e)
-        {
-            textBoxSpecificPages.Enabled = radioButtonSpecific.Checked;
-        }
-
-        private void comboBoxAction_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (comboBoxAction.Text)
+            if (dialogResult == DialogResult.OK)
             {
-                case "Remove":
-                    panelPageChoosers.Visible = true;
-                    panelRotationAngles.Visible = false;
-                    panelMergePDF.Visible = false;
-                    break;
-                case "Rotate":
-                    panelPageChoosers.Visible = true;
-                    panelRotationAngles.Visible = true;
-                    panelMergePDF.Visible = false;
-                    break;
-                case "Merge":
-                    panelPageChoosers.Visible = false;
-                    panelRotationAngles.Visible = false;
-                    panelMergePDF.Visible = true;
-                    break;
+                fileChooserDirectory = Path.GetDirectoryName(fileChooser.FileName);
+                mergeFilePath = fileChooser.FileName;
+
+                labelPDFtoMerge.Text = mergeFilePath;
+                toolTip1.SetToolTip(labelPDFtoMerge, mergeFilePath);
             }
         }
 
@@ -199,77 +129,81 @@ namespace Ballerina_PDF
                 return;
             }
 
+            bool success = false;
             switch (comboBoxAction.Text)
             {
                 case "Remove":
-                    if (radioButtonAll.Checked)
+                    if (radioButtonEven.Checked)
                     {
-                        newPageOrder.Clear();
-                        UpdateStatusLabel("Removed all pages");
-                    }
-                    else if (radioButtonEven.Checked)
-                    {
-                        List<int> evenPages = newPageOrder.Where(p => p % 2 == 0).ToList();
-                        foreach (int i in evenPages)
-                            newPageOrder.Remove(i);
+                        success = PDFActions.RemoveEvenPages(filePath, true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Removed pages " + string.Join(",", evenPages));
+                        if (success)
+                            UpdateStatusLabel("Removed even pages"); //Todo: this should be updated from PDFActions.RemoveEvenPages so that we have the specific page numbers
                     }
                     else if (radioButtonOdd.Checked)
                     {
-                        List<int> oddPages = newPageOrder.Where(p => p % 2 != 0).ToList();
-                        foreach (int i in oddPages)
-                            newPageOrder.Remove(i);
+                        success = PDFActions.RemoveOddPages(filePath, true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Removed pages " + string.Join(",", oddPages));
+                        if (success)
+                            UpdateStatusLabel("Removed odd pages"); //Todo: this should be updated from PDFActions.RemoveOddPages so that we have the specific page numbers
                     }
                     else if (radioButtonSpecific.Checked)
                     {
-                        List<int> specificPages = ParseSpecificPages(textBoxSpecificPages.Text);
-                        foreach (int i in specificPages)
-                            newPageOrder.Remove(i);
+                        success = PDFActions.RemovePages(filePath, ParseSpecificPages(textBoxSpecificPages.Text), true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Removed pages " + string.Join(",", specificPages));
+                        if (success)
+                            UpdateStatusLabel("Removed pages"); //Todo: this should be updated from PDFActions.RemovePages so that we have the specific page numbers
                     }
+
                     break;
                 case "Rotate":
                     int angle = Convert.ToInt32(numericUpDownAngle.Value);
 
                     if (radioButtonAll.Checked)
                     {
-                        foreach (int i in newPageOrder)
-                            RotatePage(i, angle);
+                        success = PDFActions.RotateAllPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Rotated all pages by " + angle + " degrees");
+                        if (success)
+                            UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotateAllPages so that we have the specific page numbers
                     }
                     else if (radioButtonEven.Checked)
                     {
-                        List<int> evenPages = newPageOrder.Where(p => p % 2 == 0).ToList();
-                        foreach (int i in evenPages)
-                            RotatePage(i, angle);
+                        success = PDFActions.RotateEvenPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Rotated pages " + string.Join(",", evenPages) + " by " + angle + " degrees");
+                        if (success)
+                            UpdateStatusLabel("Rotated even pages"); //Todo: this should be updated from PDFActions.RotateEvenPages so that we have the specific page numbers
                     }
                     else if (radioButtonOdd.Checked)
                     {
-                        List<int> oddPages = newPageOrder.Where(p => p % 2 != 0).ToList();
-                        foreach (int i in oddPages)
-                            RotatePage(i, angle);
+                        success = PDFActions.RotateOddPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        UpdateStatusLabel("Rotated pages " + string.Join(",", oddPages) + " by " + angle + " degrees");
+                        if (success)
+                            UpdateStatusLabel("Rotated odd pages"); //Todo: this should be updated from PDFActions.RotateOddPages so that we have the specific page numbers
                     }
                     else if (radioButtonSpecific.Checked)
                     {
-                        List<int> specificPages = ParseSpecificPages(textBoxSpecificPages.Text);
-                        foreach (int i in specificPages)
-                            RotatePage(i, angle);
+                        List<KeyValuePair<int, int>> indiciesAndAngles = new List<KeyValuePair<int, int>>();
+                        foreach (int pageIndex in ParseSpecificPages(textBoxSpecificPages.Text))
+                            indiciesAndAngles.Add(new KeyValuePair<int, int>(pageIndex, angle));
 
-                        UpdateStatusLabel("Rotated pages " + string.Join(",", specificPages) + " by " + angle + " degrees");
+                        success = PDFActions.RotatePages(filePath, indiciesAndAngles, true /*should be only for debugging mode?*/);
+
+                        if (success)
+                            UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotatePages so that we have the specific page numbers
                     }
+
                     break;
             }
         }
 
+        private void buttonMerge_Click(object sender, EventArgs e)
+        {
+            PDFActions.MergePDF(filePath, mergeFilePath, true /*should be only for debugging mode?*/);
+            UpdateStatusLabel("Merged " + Path.GetFileNameWithoutExtension(mergeFilePath) + " into " + Path.GetFileNameWithoutExtension(filePath));
+        }
+        #endregion Button Actions
+
+        #region Misc Methods
         private List<int> ParseSpecificPages(string input)
         {
             List<int> result = new List<int>();
@@ -296,28 +230,59 @@ namespace Ballerina_PDF
             statusStrip1.Update();
         }
 
-        private void Main_DragDrop(object sender, DragEventArgs e)
+        protected virtual bool IsFileLocked(FileInfo file)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if ((new FileInfo(files.First())).Extension == ".pdf")
+            FileStream stream = null;
+
+            try
             {
-                if (!string.IsNullOrEmpty(filePath) && files.First() != filePath)
-                    LoadNewPDF(files.First());
-                else
-                    LoadPDF(files.First());
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
             }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+
+            //file is not locked
+            return false;
+        }
+        #endregion Misc Methods
+
+        #region Enable/Disable Functionality
+        private void radioButtonSpecific_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxSpecificPages.Enabled = radioButtonSpecific.Checked;
         }
 
-        private void Main_DragEnter(object sender, DragEventArgs e)
+        private void comboBoxAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-        }
-
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(filePath))
-                SavePDF(true);
+            switch (comboBoxAction.Text)
+            {
+                case "Remove":
+                    panelPageChoosers.Visible = true;
+                    panelRotationAngles.Visible = false;
+                    panelMergePDF.Visible = false;
+                    break;
+                case "Rotate":
+                    panelPageChoosers.Visible = true;
+                    panelRotationAngles.Visible = true;
+                    panelMergePDF.Visible = false;
+                    break;
+                case "Merge":
+                    panelPageChoosers.Visible = false;
+                    panelRotationAngles.Visible = false;
+                    panelMergePDF.Visible = true;
+                    break;
+            }
         }
 
         private void radioButton0_CheckedChanged(object sender, EventArgs e)
@@ -395,54 +360,6 @@ namespace Ballerina_PDF
                 radioButtonNegative90.Checked = false;
             }
         }
-
-        private void buttonLoadMergePDF_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileChooser = new OpenFileDialog();
-            fileChooser.InitialDirectory = string.IsNullOrEmpty(fileChooserDirectory) ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) : fileChooserDirectory;
-            fileChooser.Filter = "PDF Files (*.pdf)|*.pdf";
-            DialogResult dialogResult = fileChooser.ShowDialog();
-
-            if (dialogResult == DialogResult.OK)
-            {
-                fileChooserDirectory = Path.GetDirectoryName(fileChooser.FileName);
-                mergeFilePath = fileChooser.FileName;
-
-                labelPDFtoMerge.Text = mergeFilePath;
-                toolTip1.SetToolTip(labelPDFtoMerge, mergeFilePath);
-            }
-        }
-
-        private void buttonMerge_Click(object sender, EventArgs e)
-        {
-            //Disabled for now
-            //MergePDF(mergeFilePath);
-        }
-
-        protected virtual bool IsFileLocked(FileInfo file)
-        {
-            FileStream stream = null;
-
-            try
-            {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
-            }
-            catch (IOException)
-            {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist (has already been processed)
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-            }
-
-            //file is not locked
-            return false;
-        }
+        #endregion Enable/Disable Functionality
     }
 }
