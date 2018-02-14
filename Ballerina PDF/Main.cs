@@ -45,6 +45,12 @@ namespace Ballerina_PDF
 
         private void LoadPDF(string filePath)
         {
+            if (IsFileLocked(new FileInfo(filePath)))
+            {
+                MessageBox.Show("Please close the file first before editing");
+                return;
+            }
+
             this.filePath = filePath;
             PdfReader reader = new PdfReader(filePath);
             document = new PdfDocument(reader);
@@ -411,6 +417,32 @@ namespace Ballerina_PDF
         {
             //Disabled for now
             //MergePDF(mergeFilePath);
+        }
+
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None);
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+
+            //file is not locked
+            return false;
         }
     }
 }
