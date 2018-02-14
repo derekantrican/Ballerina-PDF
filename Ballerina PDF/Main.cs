@@ -47,7 +47,7 @@ namespace Ballerina_PDF
         #region PDF Loading Functions
         private void LoadPDF(string fileToLoad)
         {
-            if (IsFileLocked(new FileInfo(filePath)))
+            if (IsFileLocked(new FileInfo(fileToLoad)))
             {
                 MessageBox.Show("File is in use. Please close the file first before editing");
                 return;
@@ -62,7 +62,7 @@ namespace Ballerina_PDF
 
         private void LoadMergePDF(string fileToLoad)
         {
-            if (IsFileLocked(new FileInfo(filePath)))
+            if (IsFileLocked(new FileInfo(fileToLoad)))
             {
                 MessageBox.Show("File is in use. Please close the file first before editing");
                 return;
