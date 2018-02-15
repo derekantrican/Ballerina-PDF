@@ -1,7 +1,9 @@
 # Ballerina PDF
 A small program for providing simple modifications to pages of a PDF
 
-![Program](https://i.imgur.com/3FO7qkA.png)
+![Program](https://i.imgur.com/EKCq9WQ.png)
+
+
 
 **Download from the releases page:** https://github.com/derekantrican/Ballerina-PDF/releases
 
@@ -11,7 +13,6 @@ Currently, these are the supported functions:
 
 **Removing of pages**
 
-- All
 - Even
 - Odd
 - Specific (e.g. 1,2,5-8,22)
@@ -22,3 +23,8 @@ Currently, these are the supported functions:
 - Even
 - Odd
 - Specific (e.g. 1,2,5-8,22)
+
+**Merging of PDFs**
+
+- Appending a PDF onto the beginning of another PDF
+- Appending a PDF onto the end of another PDF
