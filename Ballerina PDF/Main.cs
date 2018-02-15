@@ -27,13 +27,13 @@ namespace Ballerina_PDF
         private void BuildForm()
         {
             this.Width = 328;
-            this.Height = 319;
+            this.Height = 330;
 
-            panelRotationAngles.Left = 142;
-            panelRotationAngles.Top = 24;
+            panelRotate.Left = 28;
+            panelRotate.Top = 84;
 
-            panelPageChoosers.Left = 28;
-            panelPageChoosers.Top = 84;
+            panelRemove.Left = 28;
+            panelRemove.Top = 84;
 
             panelMergePDF.Left = 28;
             panelMergePDF.Top = 84;
@@ -42,7 +42,8 @@ namespace Ballerina_PDF
         private void SetDefaults()
         {
             comboBoxAction.SelectedIndex = 0;
-            radioButtonAll.Checked = true;
+            radioButtonRotateAll.Checked = true;
+            radioButtonRemoveEven.Checked = true;
             radioButton0.Checked = true; //the numericUpDown is 0  to start with, so this should be checked
             radioButtonMergeBeginning.Checked = true;
             UpdateStatusLabel("");
@@ -126,78 +127,81 @@ namespace Ballerina_PDF
             }
         }
 
-        private void buttonApply_Click(object sender, EventArgs e)
+        private void buttonAppyRotation_Click(object sender, EventArgs e)
         {
+            bool success;
+            int angle = Convert.ToInt32(numericUpDownAngle.Value);
+
             if (string.IsNullOrEmpty(filePath))
             {
                 MessageBox.Show("Please select a pdf first");
                 return;
             }
 
-            bool success = false;
-            switch (comboBoxAction.Text)
+            if (radioButtonRotateAll.Checked)
             {
-                case "Remove":
-                    if (radioButtonEven.Checked)
-                    {
-                        success = PDFActions.RemoveEvenPages(filePath, true /*should be only for debugging mode?*/);
+                success = PDFActions.RotateAllPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        if (success)
-                            UpdateStatusLabel("Removed even pages"); //Todo: this should be updated from PDFActions.RemoveEvenPages so that we have the specific page numbers
-                    }
-                    else if (radioButtonOdd.Checked)
-                    {
-                        success = PDFActions.RemoveOddPages(filePath, true /*should be only for debugging mode?*/);
+                if (success)
+                    UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotateAllPages so that we have the specific page numbers
+            }
+            else if (radioButtonRotateEven.Checked)
+            {
+                success = PDFActions.RotateEvenPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        if (success)
-                            UpdateStatusLabel("Removed odd pages"); //Todo: this should be updated from PDFActions.RemoveOddPages so that we have the specific page numbers
-                    }
-                    else if (radioButtonSpecific.Checked)
-                    {
-                        success = PDFActions.RemovePages(filePath, ParseSpecificPages(textBoxSpecificPages.Text), true /*should be only for debugging mode?*/);
+                if (success)
+                    UpdateStatusLabel("Rotated even pages"); //Todo: this should be updated from PDFActions.RotateEvenPages so that we have the specific page numbers
+            }
+            else if (radioButtonRotateOdd.Checked)
+            {
+                success = PDFActions.RotateOddPages(filePath, angle, true /*should be only for debugging mode?*/);
 
-                        if (success)
-                            UpdateStatusLabel("Removed pages"); //Todo: this should be updated from PDFActions.RemovePages so that we have the specific page numbers
-                    }
+                if (success)
+                    UpdateStatusLabel("Rotated odd pages"); //Todo: this should be updated from PDFActions.RotateOddPages so that we have the specific page numbers
+            }
+            else if (radioButtonRotateSpecific.Checked)
+            {
+                List<KeyValuePair<int, int>> indiciesAndAngles = new List<KeyValuePair<int, int>>();
+                foreach (int pageIndex in ParseSpecificPages(textBoxRotateSpecific.Text))
+                    indiciesAndAngles.Add(new KeyValuePair<int, int>(pageIndex, angle));
 
-                    break;
-                case "Rotate":
-                    int angle = Convert.ToInt32(numericUpDownAngle.Value);
+                success = PDFActions.RotatePages(filePath, indiciesAndAngles, true /*should be only for debugging mode?*/);
 
-                    if (radioButtonAll.Checked)
-                    {
-                        success = PDFActions.RotateAllPages(filePath, angle, true /*should be only for debugging mode?*/);
+                if (success)
+                    UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotatePages so that we have the specific page numbers
+            }
+        }
 
-                        if (success)
-                            UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotateAllPages so that we have the specific page numbers
-                    }
-                    else if (radioButtonEven.Checked)
-                    {
-                        success = PDFActions.RotateEvenPages(filePath, angle, true /*should be only for debugging mode?*/);
+        private void buttonApplyRemove_Click(object sender, EventArgs e)
+        {
+            bool success;
 
-                        if (success)
-                            UpdateStatusLabel("Rotated even pages"); //Todo: this should be updated from PDFActions.RotateEvenPages so that we have the specific page numbers
-                    }
-                    else if (radioButtonOdd.Checked)
-                    {
-                        success = PDFActions.RotateOddPages(filePath, angle, true /*should be only for debugging mode?*/);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("Please select a pdf first");
+                return;
+            }
 
-                        if (success)
-                            UpdateStatusLabel("Rotated odd pages"); //Todo: this should be updated from PDFActions.RotateOddPages so that we have the specific page numbers
-                    }
-                    else if (radioButtonSpecific.Checked)
-                    {
-                        List<KeyValuePair<int, int>> indiciesAndAngles = new List<KeyValuePair<int, int>>();
-                        foreach (int pageIndex in ParseSpecificPages(textBoxSpecificPages.Text))
-                            indiciesAndAngles.Add(new KeyValuePair<int, int>(pageIndex, angle));
+            if (radioButtonRemoveEven.Checked)
+            {
+                success = PDFActions.RemoveEvenPages(filePath, true /*should be only for debugging mode?*/);
 
-                        success = PDFActions.RotatePages(filePath, indiciesAndAngles, true /*should be only for debugging mode?*/);
+                if (success)
+                    UpdateStatusLabel("Removed even pages"); //Todo: this should be updated from PDFActions.RemoveEvenPages so that we have the specific page numbers
+            }
+            else if (radioButtonRemoveOdd.Checked)
+            {
+                success = PDFActions.RemoveOddPages(filePath, true /*should be only for debugging mode?*/);
 
-                        if (success)
-                            UpdateStatusLabel("Rotated pages"); //Todo: this should be updated from PDFActions.RotatePages so that we have the specific page numbers
-                    }
+                if (success)
+                    UpdateStatusLabel("Removed odd pages"); //Todo: this should be updated from PDFActions.RemoveOddPages so that we have the specific page numbers
+            }
+            else if (radioButtonRemoveSpecific.Checked)
+            {
+                success = PDFActions.RemovePages(filePath, ParseSpecificPages(textBoxRemoveSpecific.Text), true /*should be only for debugging mode?*/);
 
-                    break;
+                if (success)
+                    UpdateStatusLabel("Removed pages"); //Todo: this should be updated from PDFActions.RemovePages so that we have the specific page numbers
             }
         }
 
@@ -269,26 +273,26 @@ namespace Ballerina_PDF
         #region Enable/Disable Functionality
         private void radioButtonSpecific_CheckedChanged(object sender, EventArgs e)
         {
-            textBoxSpecificPages.Enabled = radioButtonSpecific.Checked;
+            textBoxRemoveSpecific.Enabled = radioButtonRemoveSpecific.Checked;
         }
 
         private void comboBoxAction_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBoxAction.Text)
             {
-                case "Remove":
-                    panelPageChoosers.Visible = true;
-                    panelRotationAngles.Visible = false;
+                case "Rotate":
+                    panelRotate.Visible = true;
+                    panelRemove.Visible = false;
                     panelMergePDF.Visible = false;
                     break;
-                case "Rotate":
-                    panelPageChoosers.Visible = true;
-                    panelRotationAngles.Visible = true;
+                case "Remove":
+                    panelRotate.Visible = false;
+                    panelRemove.Visible = true;
                     panelMergePDF.Visible = false;
                     break;
                 case "Merge":
-                    panelPageChoosers.Visible = false;
-                    panelRotationAngles.Visible = false;
+                    panelRotate.Visible = false;
+                    panelRemove.Visible = false;
                     panelMergePDF.Visible = true;
                     break;
             }
@@ -297,49 +301,25 @@ namespace Ballerina_PDF
         private void radioButton0_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton0.Checked)
-            {
                 numericUpDownAngle.Value = 0;
-
-                radioButton180.Checked = false;
-                radioButtonNegative90.Checked = false;
-                radioButton90.Checked = false;
-            }
         }
 
         private void radioButton180_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton180.Checked)
-            {
                 numericUpDownAngle.Value = 180;
-
-                radioButton0.Checked = false;
-                radioButtonNegative90.Checked = false;
-                radioButton90.Checked = false;
-            }
         }
 
         private void radioButtonNegative90_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonNegative90.Checked)
-            {
                 numericUpDownAngle.Value = -90;
-
-                radioButton0.Checked = false;
-                radioButton180.Checked = false;
-                radioButton90.Checked = false;
-            }
         }
 
         private void radioButton90_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton90.Checked)
-            {
                 numericUpDownAngle.Value = 90;
-
-                radioButton0.Checked = false;
-                radioButton180.Checked = false;
-                radioButtonNegative90.Checked = false;
-            }
         }
 
         private void numericUpDownAngle_KeyUp(object sender, KeyEventArgs e)
@@ -368,6 +348,11 @@ namespace Ballerina_PDF
                 radioButton90.Checked = false;
                 radioButtonNegative90.Checked = false;
             }
+        }
+
+        private void numericUpDownAngle_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDownAngle_KeyUp(null, null);
         }
         #endregion Enable/Disable Functionality
     }
