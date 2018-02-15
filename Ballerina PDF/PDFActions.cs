@@ -396,7 +396,7 @@ namespace Ballerina_PDF
             }
         }
 
-        public static bool MergePDF(string filePath, string filePathToMerge, bool throwErrors = false)
+        public static bool MergePDFonEnd(string filePath, string filePathToMerge, bool throwErrors = false)
         {
             try
             {
@@ -422,6 +422,54 @@ namespace Ballerina_PDF
 
                 for (int i = 1; i <= mergeDocument.GetNumberOfPages(); i++)
                     tempDocument.AddPage(mergeDocument.GetPage(i).CopyTo(tempDocument));
+                #endregion Logic
+
+                #region Teardown
+                document.Close();
+                tempDocument.Close();
+
+                File.Delete(filePath);
+                File.Move(tempFilePath, filePath); //Renames the tempFilePath to the original filePath
+                File.SetAttributes(filePath, File.GetAttributes(filePath) & ~FileAttributes.Hidden); //"unhide" the file (remove the hidden attribute that was associated with the tempFilePath)
+                #endregion Teardown
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (throwErrors)
+                    MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
+
+                return false;
+            }
+        }
+
+        public static bool MergePDFonBeginning(string filePath, string filePathToMerge, bool throwErrors = false)
+        {
+            try
+            {
+                #region Setup
+                if (!File.Exists(filePath) ||
+                    !File.Exists(filePathToMerge))
+                    throw new Exception("File(s) not found");
+
+                PdfReader reader = new PdfReader(filePath);
+                PdfDocument document = new PdfDocument(reader);
+                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+                PdfWriter writer = new PdfWriter(tempFilePath);
+                PdfDocument tempDocument = new PdfDocument(writer);
+                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+
+                PdfReader mergeReader = new PdfReader(filePathToMerge);
+                PdfDocument mergeDocument = new PdfDocument(mergeReader);
+                #endregion Setup
+
+                #region Logic
+                for (int i = 1; i <= mergeDocument.GetNumberOfPages(); i++)
+                    tempDocument.AddPage(mergeDocument.GetPage(i).CopyTo(tempDocument));
+
+                for (int i = 1; i <= document.GetNumberOfPages(); i++)
+                    tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
                 #endregion Logic
 
                 #region Teardown

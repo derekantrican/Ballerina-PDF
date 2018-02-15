@@ -53,6 +53,8 @@
             this.buttonMerge = new System.Windows.Forms.Button();
             this.labelPDFtoMerge = new System.Windows.Forms.Label();
             this.buttonLoadMergePDF = new System.Windows.Forms.Button();
+            this.radioButtonMergeBeginning = new System.Windows.Forms.RadioButton();
+            this.radioButtonMergeEnd = new System.Windows.Forms.RadioButton();
             this.panelPageChoosers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -273,6 +275,8 @@
             // 
             // panelMergePDF
             // 
+            this.panelMergePDF.Controls.Add(this.radioButtonMergeEnd);
+            this.panelMergePDF.Controls.Add(this.radioButtonMergeBeginning);
             this.panelMergePDF.Controls.Add(this.buttonMerge);
             this.panelMergePDF.Controls.Add(this.labelPDFtoMerge);
             this.panelMergePDF.Controls.Add(this.buttonLoadMergePDF);
@@ -308,6 +312,28 @@
             this.buttonLoadMergePDF.UseVisualStyleBackColor = true;
             this.buttonLoadMergePDF.Click += new System.EventHandler(this.buttonLoadMergePDF_Click);
             // 
+            // radioButtonMergeBeginning
+            // 
+            this.radioButtonMergeBeginning.AutoSize = true;
+            this.radioButtonMergeBeginning.Location = new System.Drawing.Point(6, 57);
+            this.radioButtonMergeBeginning.Name = "radioButtonMergeBeginning";
+            this.radioButtonMergeBeginning.Size = new System.Drawing.Size(123, 17);
+            this.radioButtonMergeBeginning.TabIndex = 3;
+            this.radioButtonMergeBeginning.TabStop = true;
+            this.radioButtonMergeBeginning.Text = "Append to beginning";
+            this.radioButtonMergeBeginning.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMergeEnd
+            // 
+            this.radioButtonMergeEnd.AutoSize = true;
+            this.radioButtonMergeEnd.Location = new System.Drawing.Point(6, 80);
+            this.radioButtonMergeEnd.Name = "radioButtonMergeEnd";
+            this.radioButtonMergeEnd.Size = new System.Drawing.Size(95, 17);
+            this.radioButtonMergeEnd.TabIndex = 4;
+            this.radioButtonMergeEnd.TabStop = true;
+            this.radioButtonMergeEnd.Text = "Append to end";
+            this.radioButtonMergeEnd.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -336,6 +362,7 @@
             this.panelRotationAngles.ResumeLayout(false);
             this.panelRotationAngles.PerformLayout();
             this.panelMergePDF.ResumeLayout(false);
+            this.panelMergePDF.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,6 +394,8 @@
         private System.Windows.Forms.Label labelPDFtoMerge;
         private System.Windows.Forms.Button buttonLoadMergePDF;
         private System.Windows.Forms.Button buttonMerge;
+        private System.Windows.Forms.RadioButton radioButtonMergeEnd;
+        private System.Windows.Forms.RadioButton radioButtonMergeBeginning;
     }
 }
 

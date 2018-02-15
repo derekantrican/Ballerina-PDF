@@ -21,11 +21,7 @@ namespace Ballerina_PDF
         {
             InitializeComponent();
             BuildForm();
-
-            comboBoxAction.SelectedIndex = 0;
-            radioButtonAll.Checked = true;
-            radioButton0.Checked = true; //the numericUpDown is 0  to start with, so this should be checked
-            UpdateStatusLabel("");
+            SetDefaults();
         }
 
         private void BuildForm()
@@ -41,6 +37,15 @@ namespace Ballerina_PDF
 
             panelMergePDF.Left = 28;
             panelMergePDF.Top = 84;
+        }
+
+        private void SetDefaults()
+        {
+            comboBoxAction.SelectedIndex = 0;
+            radioButtonAll.Checked = true;
+            radioButton0.Checked = true; //the numericUpDown is 0  to start with, so this should be checked
+            radioButtonMergeBeginning.Checked = true;
+            UpdateStatusLabel("");
         }
         #endregion Initialization
 
@@ -198,7 +203,11 @@ namespace Ballerina_PDF
 
         private void buttonMerge_Click(object sender, EventArgs e)
         {
-            PDFActions.MergePDF(filePath, mergeFilePath, true /*should be only for debugging mode?*/);
+            if (radioButtonMergeBeginning.Checked)
+                PDFActions.MergePDFonBeginning(filePath, mergeFilePath, true /*should be only for debugging mode?*/);
+            else if (radioButtonMergeEnd.Checked)
+                PDFActions.MergePDFonEnd(filePath, mergeFilePath, true /*should be only for debugging mode?*/);
+
             UpdateStatusLabel("Merged " + Path.GetFileNameWithoutExtension(mergeFilePath) + " into " + Path.GetFileNameWithoutExtension(filePath));
         }
         #endregion Button Actions
