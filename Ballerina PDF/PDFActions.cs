@@ -35,7 +35,13 @@ namespace Ballerina_PDF
                 //-----------I don't like this and want to do it "properly"/differently (if I can)--------
                 List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
                 foreach (int i in indiciesToRemove)
+                {
+                    if (i > document.GetNumberOfPages() ||
+                        i < 1)
+                        throw new Exception("Page number out of range");
+
                     pageOrder.Remove(i);
+                }
 
                 foreach (int i in pageOrder)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -84,7 +90,13 @@ namespace Ballerina_PDF
                 foreach (int i in Enumerable.Range(1, document.GetNumberOfPages()))
                 {
                     if (i % 2 == 0)
+                    {
+                        if (i > document.GetNumberOfPages() ||
+                            i < 1)
+                            throw new Exception("Page number out of range");
+
                         pageOrder.Remove(i);
+                    }
                 }
 
                 foreach (int i in pageOrder)
@@ -134,7 +146,13 @@ namespace Ballerina_PDF
                 foreach (int i in Enumerable.Range(1, document.GetNumberOfPages()))
                 {
                     if (i % 2 != 0)
+                    {
+                        if (i > document.GetNumberOfPages() ||
+                            i < 1)
+                            throw new Exception("Page number out of range");
+
                         pageOrder.Remove(i);
+                    }
                 }
 
                 foreach (int i in pageOrder)
