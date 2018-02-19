@@ -137,6 +137,11 @@ namespace Ballerina_PDF
                 MessageBox.Show("Please select a pdf first");
                 return;
             }
+            else if (string.IsNullOrWhiteSpace(textBoxRotateSpecific.Text))
+            {
+                MessageBox.Show("Please specify some pages first");
+                return;
+            }
 
             if (radioButtonRotateAll.Checked)
             {
@@ -179,6 +184,11 @@ namespace Ballerina_PDF
             if (string.IsNullOrEmpty(filePath))
             {
                 MessageBox.Show("Please select a pdf first");
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(textBoxRemoveSpecific.Text))
+            {
+                MessageBox.Show("Please specify some pages first");
                 return;
             }
 
