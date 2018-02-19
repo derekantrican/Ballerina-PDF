@@ -421,7 +421,7 @@
             // 
             // buttonView
             // 
-            this.buttonView.Location = new System.Drawing.Point(15, 220);
+            this.buttonView.Location = new System.Drawing.Point(15, 237);
             this.buttonView.Name = "buttonView";
             this.buttonView.Size = new System.Drawing.Size(50, 23);
             this.buttonView.TabIndex = 15;
