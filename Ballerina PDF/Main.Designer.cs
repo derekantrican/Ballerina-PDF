@@ -62,6 +62,7 @@
             this.radioButtonRotateOdd = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateEven = new System.Windows.Forms.RadioButton();
             this.buttonAppyRotation = new System.Windows.Forms.Button();
+            this.buttonView = new System.Windows.Forms.Button();
             this.panelRemove.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -418,12 +419,23 @@
             this.buttonAppyRotation.UseVisualStyleBackColor = true;
             this.buttonAppyRotation.Click += new System.EventHandler(this.buttonAppyRotation_Click);
             // 
+            // buttonView
+            // 
+            this.buttonView.Location = new System.Drawing.Point(15, 220);
+            this.buttonView.Name = "buttonView";
+            this.buttonView.Size = new System.Drawing.Size(50, 23);
+            this.buttonView.TabIndex = 15;
+            this.buttonView.Text = "View";
+            this.buttonView.UseVisualStyleBackColor = true;
+            this.buttonView.Click += new System.EventHandler(this.buttonView_Click);
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 715);
+            this.Controls.Add(this.buttonView);
             this.Controls.Add(this.panelRotate);
             this.Controls.Add(this.panelMergePDF);
             this.Controls.Add(this.statusStrip1);
@@ -489,6 +501,7 @@
         private System.Windows.Forms.RadioButton radioButtonRotateEven;
         private System.Windows.Forms.Button buttonAppyRotation;
         private System.Windows.Forms.Label labelDegrees;
+        private System.Windows.Forms.Button buttonView;
     }
 }
 
