@@ -13,24 +13,24 @@ namespace Ballerina_PDF
     {
         public static bool RemovePages(string filePath, List<int> indiciesToRemove, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            if (indiciesToRemove == null ||
+                indiciesToRemove.Count <= 0)
+                throw new Exception("Invalid parameters");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                if (indiciesToRemove == null ||
-                    indiciesToRemove.Count <= 0)
-                    throw new Exception("Invalid parameters");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 //-----------I don't like this and want to do it "properly"/differently (if I can)--------
                 List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
@@ -64,26 +64,30 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RemoveEvenPages(string filePath, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 //-----------I don't like this and want to do it "properly"/differently (if I can)--------
                 List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
@@ -120,26 +124,30 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RemoveOddPages(string filePath, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 //-----------I don't like this and want to do it "properly"/differently (if I can)--------
                 List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
@@ -176,33 +184,37 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool ReorderPages(string filePath, List<int> newPageOrder, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            if (newPageOrder == null ||
+                newPageOrder.Count <= 0)
+                throw new Exception("Invalid parameters");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+
+            if (newPageOrder.Count != document.GetNumberOfPages())
+                return false;
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                if (newPageOrder == null ||
-                    newPageOrder.Count <= 0)
-                    throw new Exception("Invalid parameters");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-
-                if (newPageOrder.Count != document.GetNumberOfPages())
-                    return false;
-                #endregion Setup
-
                 #region Logic
                 foreach (int i in newPageOrder)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -224,30 +236,34 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RotatePages(string filePath, List<KeyValuePair<int, int>> indiciesAndAngles, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            if (indiciesAndAngles == null ||
+                indiciesAndAngles.Count <= 0)
+                throw new Exception("Invalid parameters");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                if (indiciesAndAngles == null ||
-                    indiciesAndAngles.Count <= 0)
-                    throw new Exception("Invalid parameters");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= document.GetNumberOfPages(); i++)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -272,26 +288,30 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RotateEvenPages(string filePath, int angle, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= document.GetNumberOfPages(); i++)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -319,26 +339,30 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RotateOddPages(string filePath, int angle, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= document.GetNumberOfPages(); i++)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -366,26 +390,30 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool RotateAllPages(string filePath, int angle, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= document.GetNumberOfPages(); i++)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -410,30 +438,34 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool MergePDFonEnd(string filePath, string filePathToMerge, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath) ||
+                !File.Exists(filePathToMerge))
+                throw new Exception("File(s) not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+
+            PdfReader mergeReader = new PdfReader(filePathToMerge);
+            PdfDocument mergeDocument = new PdfDocument(mergeReader);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath) ||
-                    !File.Exists(filePathToMerge))
-                    throw new Exception("File(s) not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-
-                PdfReader mergeReader = new PdfReader(filePathToMerge);
-                PdfDocument mergeDocument = new PdfDocument(mergeReader);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= document.GetNumberOfPages(); i++)
                     tempDocument.AddPage(document.GetPage(i).CopyTo(tempDocument));
@@ -457,6 +489,10 @@ namespace Ballerina_PDF
             {
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
+
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
 
                 return false;
             }
@@ -464,24 +500,24 @@ namespace Ballerina_PDF
 
         public static bool MergePDFonBeginning(string filePath, string filePathToMerge, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath) ||
+                !File.Exists(filePathToMerge))
+                throw new Exception("File(s) not found");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+
+            PdfReader mergeReader = new PdfReader(filePathToMerge);
+            PdfDocument mergeDocument = new PdfDocument(mergeReader);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath) ||
-                    !File.Exists(filePathToMerge))
-                    throw new Exception("File(s) not found");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-
-                PdfReader mergeReader = new PdfReader(filePathToMerge);
-                PdfDocument mergeDocument = new PdfDocument(mergeReader);
-                #endregion Setup
-
                 #region Logic
                 for (int i = 1; i <= mergeDocument.GetNumberOfPages(); i++)
                     tempDocument.AddPage(mergeDocument.GetPage(i).CopyTo(tempDocument));
@@ -506,29 +542,33 @@ namespace Ballerina_PDF
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
 
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
+
                 return false;
             }
         }
 
         public static bool MovePage(string filePath, int oldIndex, int newIndex, bool throwErrors = false)
         {
+            #region Setup
+            if (!File.Exists(filePath))
+                throw new Exception("File not found");
+
+            if (oldIndex <= 0 || newIndex <= 0)
+                throw new Exception("Invalid parameters");
+
+            PdfReader reader = new PdfReader(filePath);
+            PdfDocument document = new PdfDocument(reader);
+            string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
+            PdfWriter writer = new PdfWriter(tempFilePath);
+            PdfDocument tempDocument = new PdfDocument(writer);
+            File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
+            #endregion Setup
+
             try
             {
-                #region Setup
-                if (!File.Exists(filePath))
-                    throw new Exception("File not found");
-
-                if (oldIndex <= 0 || newIndex <= 0)
-                    throw new Exception("Invalid parameters");
-
-                PdfReader reader = new PdfReader(filePath);
-                PdfDocument document = new PdfDocument(reader);
-                string tempFilePath = filePath.Replace(".pdf", "-temp.pdf");
-                PdfWriter writer = new PdfWriter(tempFilePath);
-                PdfDocument tempDocument = new PdfDocument(writer);
-                File.SetAttributes(tempFilePath, File.GetAttributes(tempFilePath) | FileAttributes.Hidden);
-                #endregion Setup
-
                 #region Logic
                 List<int> pageOrder = Enumerable.Range(1, document.GetNumberOfPages()).ToList();
                 pageOrder.Insert(newIndex - 1, oldIndex); //"- 1" because lists are zero-index-based and pages are not
@@ -553,6 +593,10 @@ namespace Ballerina_PDF
             {
                 if (throwErrors)
                     MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
+
+                document.Close();
+                tempDocument.GetWriter().Dispose(); //Need to dispose the writer to close the tempDocument (in case it has no pages)
+                File.Delete(tempFilePath); //Delete the temp document so it's not left over after an error
 
                 return false;
             }
