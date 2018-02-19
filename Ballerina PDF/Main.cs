@@ -271,9 +271,14 @@ namespace Ballerina_PDF
         #endregion Misc Methods
 
         #region Enable/Disable Functionality
-        private void radioButtonSpecific_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonRemoveSpecific_CheckedChanged(object sender, EventArgs e)
         {
             textBoxRemoveSpecific.Enabled = radioButtonRemoveSpecific.Checked;
+        }
+
+        private void radioButtonRotateSpecific_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxRotateSpecific.Enabled = radioButtonRotateSpecific.Checked;
         }
 
         private void comboBoxAction_SelectedIndexChanged(object sender, EventArgs e)

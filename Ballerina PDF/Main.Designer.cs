@@ -49,19 +49,19 @@
             this.radioButton0 = new System.Windows.Forms.RadioButton();
             this.panelRotationAngles = new System.Windows.Forms.Panel();
             this.panelMergePDF = new System.Windows.Forms.Panel();
+            this.radioButtonMergeEnd = new System.Windows.Forms.RadioButton();
+            this.radioButtonMergeBeginning = new System.Windows.Forms.RadioButton();
             this.buttonMerge = new System.Windows.Forms.Button();
             this.labelPDFtoMerge = new System.Windows.Forms.Label();
             this.buttonLoadMergePDF = new System.Windows.Forms.Button();
-            this.radioButtonMergeBeginning = new System.Windows.Forms.RadioButton();
-            this.radioButtonMergeEnd = new System.Windows.Forms.RadioButton();
             this.panelRotate = new System.Windows.Forms.Panel();
+            this.labelDegrees = new System.Windows.Forms.Label();
+            this.radioButtonRotateAll = new System.Windows.Forms.RadioButton();
             this.textBoxRotateSpecific = new System.Windows.Forms.TextBox();
             this.radioButtonRotateSpecific = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateOdd = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateEven = new System.Windows.Forms.RadioButton();
             this.buttonAppyRotation = new System.Windows.Forms.Button();
-            this.radioButtonRotateAll = new System.Windows.Forms.RadioButton();
-            this.labelDegrees = new System.Windows.Forms.Label();
             this.panelRemove.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -117,7 +117,7 @@
             this.radioButtonRemoveSpecific.TabStop = true;
             this.radioButtonRemoveSpecific.Text = "Specific...";
             this.radioButtonRemoveSpecific.UseVisualStyleBackColor = true;
-            this.radioButtonRemoveSpecific.CheckedChanged += new System.EventHandler(this.radioButtonSpecific_CheckedChanged);
+            this.radioButtonRemoveSpecific.CheckedChanged += new System.EventHandler(this.radioButtonRemoveSpecific_CheckedChanged);
             // 
             // radioButtonRemoveOdd
             // 
@@ -281,6 +281,28 @@
             this.panelMergePDF.Size = new System.Drawing.Size(272, 174);
             this.panelMergePDF.TabIndex = 14;
             // 
+            // radioButtonMergeEnd
+            // 
+            this.radioButtonMergeEnd.AutoSize = true;
+            this.radioButtonMergeEnd.Location = new System.Drawing.Point(6, 80);
+            this.radioButtonMergeEnd.Name = "radioButtonMergeEnd";
+            this.radioButtonMergeEnd.Size = new System.Drawing.Size(95, 17);
+            this.radioButtonMergeEnd.TabIndex = 4;
+            this.radioButtonMergeEnd.TabStop = true;
+            this.radioButtonMergeEnd.Text = "Append to end";
+            this.radioButtonMergeEnd.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMergeBeginning
+            // 
+            this.radioButtonMergeBeginning.AutoSize = true;
+            this.radioButtonMergeBeginning.Location = new System.Drawing.Point(6, 57);
+            this.radioButtonMergeBeginning.Name = "radioButtonMergeBeginning";
+            this.radioButtonMergeBeginning.Size = new System.Drawing.Size(123, 17);
+            this.radioButtonMergeBeginning.TabIndex = 3;
+            this.radioButtonMergeBeginning.TabStop = true;
+            this.radioButtonMergeBeginning.Text = "Append to beginning";
+            this.radioButtonMergeBeginning.UseVisualStyleBackColor = true;
+            // 
             // buttonMerge
             // 
             this.buttonMerge.Location = new System.Drawing.Point(214, 148);
@@ -308,28 +330,6 @@
             this.buttonLoadMergePDF.UseVisualStyleBackColor = true;
             this.buttonLoadMergePDF.Click += new System.EventHandler(this.buttonLoadMergePDF_Click);
             // 
-            // radioButtonMergeBeginning
-            // 
-            this.radioButtonMergeBeginning.AutoSize = true;
-            this.radioButtonMergeBeginning.Location = new System.Drawing.Point(6, 57);
-            this.radioButtonMergeBeginning.Name = "radioButtonMergeBeginning";
-            this.radioButtonMergeBeginning.Size = new System.Drawing.Size(123, 17);
-            this.radioButtonMergeBeginning.TabIndex = 3;
-            this.radioButtonMergeBeginning.TabStop = true;
-            this.radioButtonMergeBeginning.Text = "Append to beginning";
-            this.radioButtonMergeBeginning.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonMergeEnd
-            // 
-            this.radioButtonMergeEnd.AutoSize = true;
-            this.radioButtonMergeEnd.Location = new System.Drawing.Point(6, 80);
-            this.radioButtonMergeEnd.Name = "radioButtonMergeEnd";
-            this.radioButtonMergeEnd.Size = new System.Drawing.Size(95, 17);
-            this.radioButtonMergeEnd.TabIndex = 4;
-            this.radioButtonMergeEnd.TabStop = true;
-            this.radioButtonMergeEnd.Text = "Append to end";
-            this.radioButtonMergeEnd.UseVisualStyleBackColor = true;
-            // 
             // panelRotate
             // 
             this.panelRotate.Controls.Add(this.labelDegrees);
@@ -345,6 +345,26 @@
             this.panelRotate.Name = "panelRotate";
             this.panelRotate.Size = new System.Drawing.Size(272, 174);
             this.panelRotate.TabIndex = 8;
+            // 
+            // labelDegrees
+            // 
+            this.labelDegrees.AutoSize = true;
+            this.labelDegrees.Location = new System.Drawing.Point(3, 10);
+            this.labelDegrees.Name = "labelDegrees";
+            this.labelDegrees.Size = new System.Drawing.Size(50, 13);
+            this.labelDegrees.TabIndex = 15;
+            this.labelDegrees.Text = "Degrees:";
+            // 
+            // radioButtonRotateAll
+            // 
+            this.radioButtonRotateAll.AutoSize = true;
+            this.radioButtonRotateAll.Location = new System.Drawing.Point(3, 56);
+            this.radioButtonRotateAll.Name = "radioButtonRotateAll";
+            this.radioButtonRotateAll.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonRotateAll.TabIndex = 8;
+            this.radioButtonRotateAll.TabStop = true;
+            this.radioButtonRotateAll.Text = "All pages";
+            this.radioButtonRotateAll.UseVisualStyleBackColor = true;
             // 
             // textBoxRotateSpecific
             // 
@@ -364,6 +384,7 @@
             this.radioButtonRotateSpecific.TabStop = true;
             this.radioButtonRotateSpecific.Text = "Specific...";
             this.radioButtonRotateSpecific.UseVisualStyleBackColor = true;
+            this.radioButtonRotateSpecific.CheckedChanged += new System.EventHandler(this.radioButtonRotateSpecific_CheckedChanged);
             // 
             // radioButtonRotateOdd
             // 
@@ -396,26 +417,6 @@
             this.buttonAppyRotation.Text = "Apply";
             this.buttonAppyRotation.UseVisualStyleBackColor = true;
             this.buttonAppyRotation.Click += new System.EventHandler(this.buttonAppyRotation_Click);
-            // 
-            // radioButtonRotateAll
-            // 
-            this.radioButtonRotateAll.AutoSize = true;
-            this.radioButtonRotateAll.Location = new System.Drawing.Point(3, 56);
-            this.radioButtonRotateAll.Name = "radioButtonRotateAll";
-            this.radioButtonRotateAll.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonRotateAll.TabIndex = 8;
-            this.radioButtonRotateAll.TabStop = true;
-            this.radioButtonRotateAll.Text = "All pages";
-            this.radioButtonRotateAll.UseVisualStyleBackColor = true;
-            // 
-            // labelDegrees
-            // 
-            this.labelDegrees.AutoSize = true;
-            this.labelDegrees.Location = new System.Drawing.Point(3, 10);
-            this.labelDegrees.Name = "labelDegrees";
-            this.labelDegrees.Size = new System.Drawing.Size(50, 13);
-            this.labelDegrees.TabIndex = 15;
-            this.labelDegrees.Text = "Degrees:";
             // 
             // Main
             // 
