@@ -35,7 +35,7 @@ namespace Ballerina_PDF
             if (pageNumber > document.PageCount - 1)
                 return null;
 
-            return document.Render(pageNumber, 300, 300, false);
+            return document.Render(pageNumber, 500, 500, false);
         }
 
         private void PopulateListView(string pdfFilePath)
@@ -49,9 +49,17 @@ namespace Ballerina_PDF
                 pictureBox.Height = 200;
                 pictureBox.Image = GetPageAsImage(pdfFilePath, i);
                 pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBox.DoubleClick += PictureBox_DoubleClick;
 
                 flowLayoutPanel1.Controls.Add(pictureBox);
             }
+        }
+
+        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            Image clickedImage = (sender as PictureBox).Image;
+            SinglePageViewer pageView = new SinglePageViewer(clickedImage);
+            pageView.ShowDialog();
         }
     }
 }
