@@ -7,7 +7,11 @@ A small program for providing simple modifications to pages of a PDF
 
 **Download from the releases page:** https://github.com/derekantrican/Ballerina-PDF/releases
 
-This is a simple program using the [iText 7 library](https://itextpdf.com/itext7) (under the [AGPL license](https://itextpdf.com/AGPL)) that allows for simple modification of PDFs.
+#### Used libraries/packages:
+
+- [iText 7 library](https://itextpdf.com/itext7) (under the [AGPL license](https://itextpdf.com/AGPL))
+- [Costura.Fody](https://github.com/Fody/Costura)
+- [Pdfium](pdfium.org) (using [@pvginkel's](https://github.com/pvginkel) [PdfiumViewer](https://github.com/pvginkel/PdfiumViewer))
 
 Currently, these are the supported functions:
 
