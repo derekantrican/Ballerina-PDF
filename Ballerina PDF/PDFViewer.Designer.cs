@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pdfViewer1 = new PdfiumViewer.PdfViewer();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // pdfViewer1
+            // flowLayoutPanel1
             // 
-            this.pdfViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pdfViewer1.Location = new System.Drawing.Point(0, 0);
-            this.pdfViewer1.Name = "pdfViewer1";
-            this.pdfViewer1.Size = new System.Drawing.Size(593, 664);
-            this.pdfViewer1.TabIndex = 0;
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(663, 664);
+            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // PDFViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(593, 664);
-            this.Controls.Add(this.pdfViewer1);
+            this.ClientSize = new System.Drawing.Size(663, 664);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "PDFViewer";
             this.Text = "PDFViewer";
             this.ResumeLayout(false);
@@ -52,7 +52,6 @@
         }
 
         #endregion
-
-        private PdfiumViewer.PdfViewer pdfViewer1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
