@@ -38,7 +38,7 @@
             this.pictureBoxPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxPage.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxPage.Name = "pictureBoxPage";
-            this.pictureBoxPage.Size = new System.Drawing.Size(477, 505);
+            this.pictureBoxPage.Size = new System.Drawing.Size(734, 711);
             this.pictureBoxPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxPage.TabIndex = 0;
             this.pictureBoxPage.TabStop = false;
@@ -47,7 +47,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(477, 505);
+            this.ClientSize = new System.Drawing.Size(734, 711);
             this.Controls.Add(this.pictureBoxPage);
             this.Name = "SinglePageViewer";
             this.Text = "SinglePageViewer";

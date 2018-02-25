@@ -43,23 +43,39 @@ namespace Ballerina_PDF
             PdfDocument document = PdfDocument.Load(pdfFilePath);
             for (int i = 0; i < document.PageCount; i++)
             {
-                PictureBox pictureBox = new PictureBox();
-                pictureBox.BackColor = Color.Gray;
-                pictureBox.Width = 200;
-                pictureBox.Height = 200;
-                pictureBox.Image = GetPageAsImage(pdfFilePath, i);
-                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-                pictureBox.DoubleClick += PictureBox_DoubleClick;
+                SinglePageEditor pageEditor = new SinglePageEditor();
+                pageEditor.Image = GetPageAsImage(pdfFilePath, i);
+                pageEditor.PageDoubleClick += PageEditor_PageDoubleClick;
+                pageEditor.Remove += PageEditor_Remove;
+                pageEditor.RotateCCW += PageEditor_RotateCCW;
+                pageEditor.RotateCW += PageEditor_RotateCW;
 
-                flowLayoutPanel1.Controls.Add(pictureBox);
+                flowLayoutPanel1.Controls.Add(pageEditor);
             }
         }
 
-        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        #region Page Events
+        private void PageEditor_PageDoubleClick(PictureBox sender)
         {
-            Image clickedImage = (sender as PictureBox).Image;
+            Image clickedImage = sender.Image;
             SinglePageViewer pageView = new SinglePageViewer(clickedImage);
             pageView.ShowDialog();
         }
+
+        private void PageEditor_Remove(SinglePageEditor sender)
+        {
+            flowLayoutPanel1.Controls.Remove(sender);
+        }
+
+        private void PageEditor_RotateCCW(SinglePageEditor sender)
+        {
+
+        }
+
+        private void PageEditor_RotateCW(SinglePageEditor sender)
+        {
+
+        }
+        #endregion Page Events
     }
 }
