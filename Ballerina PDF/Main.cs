@@ -223,6 +223,18 @@ namespace Ballerina_PDF
 
             UpdateStatusLabel("Merged " + Path.GetFileNameWithoutExtension(mergeFilePath) + " into " + Path.GetFileNameWithoutExtension(filePath));
         }
+
+        private void pictureBoxGrid_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("Please select a pdf first");
+                return;
+            }
+
+            PDFViewer viewer = new PDFViewer(filePath);
+            viewer.Show();
+        }
         #endregion Button Actions
 
         #region Misc Methods
@@ -369,17 +381,5 @@ namespace Ballerina_PDF
             numericUpDownAngle_KeyUp(null, null);
         }
         #endregion Enable/Disable Functionality
-
-        private void buttonView_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                MessageBox.Show("Please select a pdf first");
-                return;
-            }
-
-            PDFViewer viewer = new PDFViewer(filePath);
-            viewer.Show();
-        }
     }
 }

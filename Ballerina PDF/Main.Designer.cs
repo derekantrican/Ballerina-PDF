@@ -62,13 +62,14 @@
             this.radioButtonRotateOdd = new System.Windows.Forms.RadioButton();
             this.radioButtonRotateEven = new System.Windows.Forms.RadioButton();
             this.buttonAppyRotation = new System.Windows.Forms.Button();
-            this.buttonView = new System.Windows.Forms.Button();
+            this.pictureBoxGrid = new System.Windows.Forms.PictureBox();
             this.panelRemove.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAngle)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.panelRotationAngles.SuspendLayout();
             this.panelMergePDF.SuspendLayout();
             this.panelRotate.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonOpen
@@ -419,15 +420,17 @@
             this.buttonAppyRotation.UseVisualStyleBackColor = true;
             this.buttonAppyRotation.Click += new System.EventHandler(this.buttonAppyRotation_Click);
             // 
-            // buttonView
+            // pictureBoxGrid
             // 
-            this.buttonView.Location = new System.Drawing.Point(15, 237);
-            this.buttonView.Name = "buttonView";
-            this.buttonView.Size = new System.Drawing.Size(50, 23);
-            this.buttonView.TabIndex = 15;
-            this.buttonView.Text = "View";
-            this.buttonView.UseVisualStyleBackColor = true;
-            this.buttonView.Click += new System.EventHandler(this.buttonView_Click);
+            this.pictureBoxGrid.Image = global::Ballerina_PDF.Properties.Resources.grid;
+            this.pictureBoxGrid.Location = new System.Drawing.Point(12, 240);
+            this.pictureBoxGrid.Name = "pictureBoxGrid";
+            this.pictureBoxGrid.Size = new System.Drawing.Size(20, 20);
+            this.pictureBoxGrid.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxGrid.TabIndex = 16;
+            this.pictureBoxGrid.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBoxGrid, "Grid Editor");
+            this.pictureBoxGrid.Click += new System.EventHandler(this.pictureBoxGrid_Click);
             // 
             // Main
             // 
@@ -435,7 +438,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 715);
-            this.Controls.Add(this.buttonView);
+            this.Controls.Add(this.pictureBoxGrid);
             this.Controls.Add(this.panelRotate);
             this.Controls.Add(this.panelMergePDF);
             this.Controls.Add(this.statusStrip1);
@@ -461,6 +464,7 @@
             this.panelMergePDF.PerformLayout();
             this.panelRotate.ResumeLayout(false);
             this.panelRotate.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -501,7 +505,7 @@
         private System.Windows.Forms.RadioButton radioButtonRotateEven;
         private System.Windows.Forms.Button buttonAppyRotation;
         private System.Windows.Forms.Label labelDegrees;
-        private System.Windows.Forms.Button buttonView;
+        private System.Windows.Forms.PictureBox pictureBoxGrid;
     }
 }
 
