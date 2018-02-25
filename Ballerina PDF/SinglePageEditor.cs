@@ -41,6 +41,7 @@ namespace Ballerina_PDF
         #endregion Methods
 
         #region Public Properties
+        public int PageIndex { get; set; }
         public Image Image
         {
             get { return pictureBoxPage.Image; }
