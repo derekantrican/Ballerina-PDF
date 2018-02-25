@@ -1,7 +1,7 @@
 # Ballerina PDF
 A small program for providing simple modifications to pages of a PDF
 
-![Program](https://i.imgur.com/EKCq9WQ.png)
+![Program](https://i.imgur.com/6bISCv0.png)
 
 
 
@@ -28,3 +28,9 @@ Currently, these are the supported functions:
 
 - Appending a PDF onto the beginning of another PDF
 - Appending a PDF onto the end of another PDF
+
+**Grid editor**
+
+As of version 2.0, this program also sports a nifty grid editor that allows you to see a thumbnail of each page your editing so you know which page you're performing the edit on:
+
+![Grid Editor](https://i.imgur.com/8VpOsId.png)
