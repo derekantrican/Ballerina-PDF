@@ -195,6 +195,12 @@
   <ItemGroup>
     <None Include="Resources\grid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="costura32\pdfium.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="costura32\PdfiumViewer.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
